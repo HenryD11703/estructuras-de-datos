@@ -52,6 +52,8 @@ This creates a new node with the given data, then moves the node that was the he
 
 ![Insert at Head](InsertAtHead.png)
 
+The time complexity of this operation is O(1) because it doesn't depend on the number of nodes in the list.
+
 ### Insert at End
 
 ```cpp
@@ -67,3 +69,38 @@ int linkedList::insertAtEnd(int id) {
 ```
 
 This function traverses the list until it reaches the last node, then creates a new node with the given data and sets the next field of the last node to the new node.
+
+![Insert at End](InsertAtEnd.png)
+
+The time complexity of this operation is O(n) where n is the number of nodes in the list.
+
+### Insert at Index
+
+```cpp
+int linkedList::insertAtIndex(int id, int index) {
+  if (index == 0) {
+    insertAtHead(id);
+    return 1;
+  }
+
+  int posicion = 0;
+  Nodo* actual = head;
+  while (actual != nullptr && posicion + 1 != index) {
+    posicion++;
+    actual = actual->next;
+  }
+  if (actual != nullptr) {
+    Nodo* nuevo = new Nodo(id);
+    nuevo->next = actual->next;
+    actual->next = nuevo;
+  } else {
+    cout << "Posicion invalida" << endl;
+    return 0;
+  }
+  return 1;
+}
+```
+
+This function traverses the list until it reaches the node before the index, then creates a new node with the given data and sets the next field of the new node to the next field of the node at the index.
+
+![Insert at Index](InsertAtIndex.png)
