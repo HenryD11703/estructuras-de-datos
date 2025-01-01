@@ -50,7 +50,7 @@ int linkedList::insertAtHead(int id) {
 
 This creates a new node with the given data, then moves the node that was the head to the next field of the new node, and finally sets the new node as the head.
 
-![alt text](./imgs/linkedList/InsertAtHead.png)
+![Insert at Head](InsertAtHead.png)
 
 ### Insert at End
 
