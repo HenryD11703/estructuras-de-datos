@@ -72,7 +72,7 @@ This function traverses the list until it reaches the last node, then creates a 
 
 ![Insert at End](InsertAtEnd.png)
 
-The time complexity of this operation is O(n) where n is the number of nodes in the list.
+The time complexity of this operation is O(n) because it depends on the number of nodes in the list.
 
 ### Insert at Index
 
@@ -104,3 +104,25 @@ int linkedList::insertAtIndex(int id, int index) {
 This function traverses the list until it reaches the node before the index, then creates a new node with the given data and sets the next field of the new node to the next field of the node at the index.
 
 ![Insert at Index](InsertAtIndex.png)
+
+The time complexity of this operation is O(n) because it depends on the number of nodes in the list.
+
+### Delete at Head
+
+```cpp
+int linkedList::deleteHead() {
+  if (head == nullptr) {
+    return 0;
+  }
+  Nodo* temp = head;
+  head = head->next;
+  delete temp;
+  return 1;
+}
+```
+
+This function deletes the head node and sets the next node as the new head.
+
+![Delete at Head](DeleteAtHead.png)
+
+The time complexity of this operation is O(1) because it doesn't depend on the number of nodes in the list.
