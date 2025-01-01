@@ -151,3 +151,40 @@ This function traverses the list until it reaches the node before the last node,
 
 The time complexity of this operation is O(n) because it depends on the number of nodes in the list.
 
+### Delete at Index
+
+```cpp
+int linkedList::deleteAtIndex(int index) {
+  if (index < 0) {
+    cout << "No existen indices negativos" << endl;
+    return 0;  // Índice inválido
+  }
+  if (index == 0) {
+    deleteHead();
+    return 0;
+  }
+  if (head == nullptr) {
+    return 0;
+  }
+  int contador = 0;
+  Nodo* actual = head;
+  while (actual != nullptr && contador != index - 1) {
+    contador++;
+    actual = actual->next;
+  }
+  if (actual == nullptr || actual->next == nullptr) {
+    cout << "No se encontro el indice" << endl;
+    return 0;
+  }
+  Nodo* nodeToDelete = actual->next;
+  actual->next = nodeToDelete->next;
+  delete nodeToDelete;
+  return 1;
+}
+```
+
+This function traverses the list until it reaches the node before the index, then deletes the node at the index.
+
+![Delete at Index](DeleteAtIndex.png)
+
+The time complexity of this operation is O(n) because it depends on the number of nodes in the list.
