@@ -126,3 +126,28 @@ This function deletes the head node and sets the next node as the new head.
 ![Delete at Head](DeleteAtHead.png)
 
 The time complexity of this operation is O(1) because it doesn't depend on the number of nodes in the list.
+
+### Delete at End
+
+```cpp
+int linkedList::deleteEnd() {
+  if (head == nullptr) {
+    return 0;
+  }
+  Nodo* actual = head;
+  while (actual->next != nullptr && actual->next->next != nullptr) {
+    actual = actual->next;
+  }
+
+  delete actual->next;
+  actual->next = nullptr;
+  return 1;
+}
+```
+
+This function traverses the list until it reaches the node before the last node, then deletes the last node.
+
+![Delete at End](DeleteAtEnd.png)
+
+The time complexity of this operation is O(n) because it depends on the number of nodes in the list.
+
