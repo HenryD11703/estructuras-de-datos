@@ -20,6 +20,10 @@ int main() {
 
   lista.display();
   lista.generateGraphviz();
+  cout << lista.getLength() << endl;
+  cout << lista.search(99) << endl;
+  cout << lista.get(1) << endl;
+
   return 0;
 }
 

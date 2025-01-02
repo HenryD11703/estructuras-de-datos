@@ -150,3 +150,39 @@ void linkedList::generateGraphviz() {
     archivo.close();
   }
 }
+
+int linkedList::getLength() {
+  int contador = 0;
+  Nodo* actual = head;
+  while (actual != nullptr) {
+    actual = actual->next;
+    contador++;
+  }
+  return contador;
+}
+
+int linkedList::search(int id) {
+  int posicion = 0;
+  Nodo* actual = head;
+  while (actual != nullptr) {
+    if (actual->data == id) {
+      return posicion;
+    }
+    posicion++;
+    actual = actual->next;
+  }
+  return -1;
+}
+
+int linkedList::get(int index) {
+  Nodo* actual = head;
+  int contador = 0;
+  while (actual != nullptr) {
+    if (contador == index) {
+      return actual->data;
+    }
+    actual = actual->next;
+    contador++;
+  }
+  return -1;
+}

@@ -188,3 +188,94 @@ This function traverses the list until it reaches the node before the index, the
 ![Delete at Index](DeleteAtIndex.png)
 
 The time complexity of this operation is O(n) because it depends on the number of nodes in the list.
+
+### Get Length
+
+```cpp
+int linkedList::getLength() {
+  int contador = 0;
+  Nodo* actual = head;
+  while (actual != nullptr) {
+    actual = actual->next;
+    contador++;
+  }
+  return contador;
+}
+```
+
+This function traverses the list and counts the number of nodes.
+
+The time complexity of this operation is O(n) because it depends on the number of nodes in the list.
+
+### Search Element
+
+```cpp
+int linkedList::search(int id) {
+  int posicion = 0;
+  Nodo* actual = head;
+  while (actual != nullptr) {
+    if (actual->data == id) {
+      return posicion;
+    }
+    posicion++;
+    actual = actual->next;
+  }
+  return -1;
+}
+```
+
+This function traverses the list and compares the data of each node with the given data.
+
+The time complexity of this operation is O(n) because it depends on the number of nodes in the list.
+
+### Get Element at Index
+
+```cpp
+int linkedList::get(int index) {
+  Nodo* actual = head;
+  int contador = 0;
+  while (actual != nullptr) {
+    if (contador == index) {
+      return actual->data;
+    }
+    actual = actual->next;
+    contador++;
+  }
+  return -1;
+}
+```
+
+This function traverses the list until it reaches the node at the index and returns the data of that node.
+
+The time complexity of this operation is O(n) because it depends on the number of nodes in the list.
+
+### Generate Graph
+
+```cpp
+void linkedList::generateGraphviz() {
+  ofstream archivo;
+  archivo.open("./graphviz/linkedList.dot");
+  if (archivo.is_open()) {
+    archivo << "digraph g {" << endl;
+    archivo << "Head [label=\"head\"];" << endl;
+    archivo << "Head -> 1" << endl;
+
+    Nodo* actual = head;
+    int contador = 1;
+
+    while (actual != nullptr) {
+      archivo << contador << "[label=\"" << actual->data << "\\n"
+              << actual << "\"]" << endl;
+      archivo << contador << "->" << contador + 1 << endl;
+      contador++;
+      actual = actual->next;
+    }
+    archivo << contador << "[label=\"nullptr\"]" << endl;
+    archivo << "}" << endl;
+    archivo.close();
+  }
+}
+```
+
+This function generates a Graphviz file that represents the linked list.
+

@@ -23,8 +23,11 @@ class linkedList {
   int deleteHead();
   int deleteEnd();
   int deleteAtIndex(int index);
+  int getLength();
   void display();
   void generateGraphviz();
+  int search(int id);
+  int get(int index);
 };
 
 #endif
