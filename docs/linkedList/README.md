@@ -279,3 +279,15 @@ void linkedList::generateGraphviz() {
 
 This function generates a Graphviz file that represents the linked list.
 
+### Conclusion
+
+Linked lists are a simple and efficient way to store and manipulate data. They are especially useful when the size of the data is unknown or when the data needs to be frequently inserted or deleted.
+
+They are not the best choice when random access to elements is required, as this operation has a time complexity of O(n).
+
+## References
+
+- [Wikipedia](https://en.wikipedia.org/wiki/Linked_list)
+
+- [GeeksforGeeks](https://www.geeksforgeeks.org/python-linked-list)
+
