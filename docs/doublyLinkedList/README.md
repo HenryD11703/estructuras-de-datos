@@ -88,3 +88,28 @@ This operation deletes the head node by moving the head to the next node and set
 The time complexity of this operation is O(1) because it doesn't depend on the number of nodes in the list.
 
 ### Insert at End
+
+```cpp
+int doublyLinkedList::insertAtEnd(int id) {
+  if (head == nullptr) {
+    insertAtHead(id);
+    return 1;
+  }
+  Nodo* nuevo = new Nodo(id);
+  Nodo* actual = head;
+  while (actual->next != nullptr) {
+    actual = actual->next;
+  }
+  actual->next = nuevo;
+  nuevo->prev = actual;
+  return 1;
+}
+```
+
+This operation inserts a new node at the end of the list by traversing the list until the last node and then setting the next field of the last node to the new node.
+
+![Insert at End](InsertAtEnd.png)
+
+The time complexity of this operation is O(n) in the worst case because it depends on the number of nodes in the list.
+
+

@@ -39,6 +39,21 @@ int doublyLinkedList::deleteHead() {
   return 1;
 }
 
+int doublyLinkedList::insertAtEnd(int id) {
+  if (head == nullptr) {
+    insertAtHead(id);
+    return 1;
+  }
+  Nodo* nuevo = new Nodo(id);
+  Nodo* actual = head;
+  while (actual->next != nullptr) {
+    actual = actual->next;
+  }
+  actual->next = nuevo;
+  nuevo->prev = actual;
+  return 1;
+}
+
 void doublyLinkedList::display() {
   Nodo* actual = head;
   cout << "nullptr";
