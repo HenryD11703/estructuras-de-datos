@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "../lib/DoublyLinkedList.h"
-#include "../lib/linkedList.h"
+#include "../include/doublyLinkedList.h"
+#include "../include/linkedList.h"
 
 using namespace std;
 

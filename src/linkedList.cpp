@@ -1,4 +1,4 @@
-#include "../lib/linkedList.h"
+#include "../include/linkedList.h"
 
 #include <fstream>
 #include <iostream>
@@ -129,7 +129,7 @@ void linkedList::display() {
 
 void linkedList::generateGraphviz() {
   ofstream archivo;
-  archivo.open("./graphviz/linkedList.dot");
+  archivo.open("../utils/graphviz/linkedList.dot");
   if (archivo.is_open()) {
     archivo << "digraph g {" << endl;
     archivo << "Head [label=\"head\"];" << endl;
