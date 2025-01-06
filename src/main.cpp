@@ -10,8 +10,8 @@ int main() {
   lista.insertAtHead(1);
   lista.insertAtHead(2);
   lista.insertAtHead(3);
-
-  lista.deleteAtIndex(1);
+  cout << lista.search(3) << endl;
+  lista.generateGraphviz();
 
   // lista.deleteHead();
 

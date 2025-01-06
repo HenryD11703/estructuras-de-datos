@@ -213,3 +213,65 @@ This operation deletes the node at the specified index by traversing the list un
 ![Delete at Position](DeleteAtPosition.png)
 
 The time complexity of this operation is O(n) in the worst case because it depends on the number of nodes in the list.
+
+### Get Size
+
+```cpp
+int doublyLinkedList::getLength() {
+  int contador = 0;
+  Nodo* actual = head;
+  while (actual != nullptr) {
+    actual = actual->next;
+    contador++;
+  }
+  return contador;
+}
+```
+
+This operation returns the number of nodes in the list by traversing the list and counting the nodes.
+
+The time complexity of this operation is O(n) because it depends on the number of nodes in the list.
+
+### Search
+
+```cpp
+int doublyLinkedList::search(int id) {
+  Nodo* actual = head;
+  int position = 0;
+
+  while (actual != nullptr) {
+    if (actual->data == id) {
+      return position;
+    }
+    position++;
+    actual = actual->next;
+  }
+}
+```
+
+This operation searches for a node with the specified data by traversing the list and comparing the data of each node with the specified data.
+
+The time complexity of this operation is O(n) because it depends on the number of nodes in the list.
+
+### Get Element at Position
+
+```cpp
+int doublyLinkedList::get(int index) {
+  Nodo* actual = head;
+  int contador = 0;
+  while (actual != nullptr) {
+    if (contador == index) {
+      return actual->data;
+    }
+    actual = actual->next;
+    contador++;
+  }
+  return -1;
+}
+```
+
+This operation returns the data of the node at the specified index by traversing the list until the specified index and then returning the data of the node at that index.
+
+The time complexity of this operation is O(n) because it depends on the number of nodes in the list.
+
+

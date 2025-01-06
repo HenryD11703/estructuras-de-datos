@@ -1,5 +1,6 @@
 #include "../include/doublyLinkedList.h"
 
+#include <fstream>
 #include <iostream>
 
 using namespace std;
@@ -135,4 +136,50 @@ void doublyLinkedList::display() {
     actual = actual->next;
   }
   cout << "nullptr" << endl;
+}
+
+int doublyLinkedList::getLength() {
+  int contador = 0;
+  Nodo* actual = head;
+  while (actual != nullptr) {
+    actual = actual->next;
+    contador++;
+  }
+  return contador;
+}
+
+int doublyLinkedList::search(int id) {
+  Nodo* actual = head;
+  int position = 0;
+
+  while (actual != nullptr) {
+    if (actual->data == id) {
+      return position;
+    }
+    position++;
+    actual = actual->next;
+  }
+}
+
+int doublyLinkedList::get(int index) {
+  Nodo* actual = head;
+  int contador = 0;
+  while (actual != nullptr) {
+    if (contador == index) {
+      return actual->data;
+    }
+    actual = actual->next;
+    contador++;
+  }
+  return -1;
+}
+
+void doublyLinkedList::generateGraphviz() {
+  ofstream archivo;
+  archivo.open("../utils/graphviz/doublyLinkedList.dot");
+  if (archivo.is_open()) {
+    archivo << "digraph g {" << endl;
+    archivo << "Head [label=\"head\"];" << endl;
+    archivo.close();
+  }
 }
