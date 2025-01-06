@@ -274,4 +274,77 @@ This operation returns the data of the node at the specified index by traversing
 
 The time complexity of this operation is O(n) because it depends on the number of nodes in the list.
 
+### Generate Graphviz
 
+```cpp
+void doublyLinkedList::generateGraphviz() {
+  ofstream archivo;
+  archivo.open("./utils/graphviz/doublyLinkedList.dot");
+
+  if (archivo.is_open()) {
+    archivo << "digraph g {" << endl;
+    archivo << "rankdir=LR;"
+            << endl;  // Para que el grafo se dibuje de izquierda a derecha
+
+    // Caso lista vacía
+    if (head == nullptr) {
+      archivo << "Empty [label=\"Empty List\"];" << endl;
+      archivo << "}" << endl;
+      archivo.close();
+      return;
+    }
+
+    // Nodos especiales
+    archivo << "Head [label=\"head\"];" << endl;
+    archivo << "null1 [label=\"nullptr\"];" << endl;
+    archivo << "null2 [label=\"nullptr\"];" << endl;
+
+    // Enlace desde head al primer nodo
+    archivo << "Head -> \"" << head << "\";" << endl;
+
+    // Recorrer la lista
+    Nodo* actual = head;
+    while (actual != nullptr) {
+      // Crear nodo actual
+      archivo << "\"" << actual << "\" [label=\"" << actual->data << "\"];"
+              << endl;
+
+      // Enlaces hacia adelante
+      if (actual->next != nullptr) {
+        archivo << "\"" << actual << "\" -> \"" << actual->next << "\";"
+                << endl;
+      } else {
+        archivo << "\"" << actual << "\" -> null2;" << endl;
+      }
+
+      // Enlaces hacia atrás
+      if (actual->prev != nullptr) {
+        archivo << "\"" << actual << "\" -> \"" << actual->prev
+                << "\" [constraint=false];" << endl;
+      } else {
+        archivo << "\"" << actual << "\" -> null1;" << endl;
+      }
+
+      actual = actual->next;
+    }
+
+    archivo << "}" << endl;
+    archivo.close();
+  }
+}
+```
+
+This operation generates a Graphviz file that represents the doubly linked list. The file is saved in the `./utils/graphviz/doublyLinkedList.dot` directory.
+
+The time complexity of this operation is O(n) because it depends on the number of nodes in the list.
+
+## Conclusion
+
+Doubly linked lists are a powerful data structure that allows for efficient insertion and deletion operations at both ends of the list. They provide bidirectional traversal, which can be useful in certain scenarios. The operations on doubly linked lists have time complexities that depend on the number of nodes in the list, making them suitable for applications where dynamic data structures are required.
+
+They are not the best choice when random access to elements is required, as this operation has a time complexity of O(n).
+
+## References
+
+- [Wikipedia - Doubly Linked List](https://en.wikipedia.org/wiki/Doubly_linked_list)
+- [GeeksforGeeks - Doubly Linked List](https://www.geeksforgeeks.org/doubly-linked-list/)

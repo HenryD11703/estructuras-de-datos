@@ -176,10 +176,56 @@ int doublyLinkedList::get(int index) {
 
 void doublyLinkedList::generateGraphviz() {
   ofstream archivo;
-  archivo.open("../utils/graphviz/doublyLinkedList.dot");
+  archivo.open("./utils/graphviz/doublyLinkedList.dot");
+
   if (archivo.is_open()) {
     archivo << "digraph g {" << endl;
+    archivo << "rankdir=LR;"
+            << endl;  // Para que el grafo se dibuje de izquierda a derecha
+
+    // Caso lista vacía
+    if (head == nullptr) {
+      archivo << "Empty [label=\"Empty List\"];" << endl;
+      archivo << "}" << endl;
+      archivo.close();
+      return;
+    }
+
+    // Nodos especiales
     archivo << "Head [label=\"head\"];" << endl;
+    archivo << "null1 [label=\"nullptr\"];" << endl;
+    archivo << "null2 [label=\"nullptr\"];" << endl;
+
+    // Enlace desde head al primer nodo
+    archivo << "Head -> \"" << head << "\";" << endl;
+
+    // Recorrer la lista
+    Nodo* actual = head;
+    while (actual != nullptr) {
+      // Crear nodo actual
+      archivo << "\"" << actual << "\" [label=\"" << actual->data << "\"];"
+              << endl;
+
+      // Enlaces hacia adelante
+      if (actual->next != nullptr) {
+        archivo << "\"" << actual << "\" -> \"" << actual->next << "\";"
+                << endl;
+      } else {
+        archivo << "\"" << actual << "\" -> null2;" << endl;
+      }
+
+      // Enlaces hacia atrás
+      if (actual->prev != nullptr) {
+        archivo << "\"" << actual << "\" -> \"" << actual->prev
+                << "\" [constraint=false];" << endl;
+      } else {
+        archivo << "\"" << actual << "\" -> null1;" << endl;
+      }
+
+      actual = actual->next;
+    }
+
+    archivo << "}" << endl;
     archivo.close();
   }
 }
