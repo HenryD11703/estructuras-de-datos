@@ -54,6 +54,78 @@ int doublyLinkedList::insertAtEnd(int id) {
   return 1;
 }
 
+int doublyLinkedList::deleteEnd() {
+  if (head == nullptr) {
+    return 0;
+  }
+  if (head->next == nullptr) {
+    delete head;     // Liberar la memoria del único nodo.
+    head = nullptr;  // Actualizar head a nullptr.
+    return 1;
+  }
+
+  Nodo* actual = head;
+  while (actual->next != nullptr && actual->next->next != nullptr) {
+    actual = actual->next;
+  }
+  delete actual->next;
+  actual->next = nullptr;
+  return 1;
+}
+
+int doublyLinkedList::insertAtIndex(int id, int index) {
+  if (head == nullptr) {
+    return 0;
+  }
+  if (index == 0) {
+    insertAtHead(id);
+    return 1;
+  }
+  int contador = 0;
+  Nodo* actual = head;
+  while (contador + 1 != index && actual != nullptr) {
+    actual = actual->next;
+    contador++;
+  }
+  if (actual->next == nullptr) {
+    insertAtEnd(id);
+    return 1;
+  }
+  Nodo* nuevo = new Nodo(id);
+  nuevo->prev = actual;
+  nuevo->next = actual->next;
+  actual->next->prev = nuevo;
+  actual->next = nuevo;
+  return 1;
+}
+
+int doublyLinkedList::deleteAtIndex(int index) {
+  if (head == nullptr) {
+    return 0;
+  }
+  if (index == 0) {
+    deleteHead();
+    return 1;
+  }
+  int contador = 0;
+  Nodo* actual = head;
+  while (contador + 1 != index && actual != nullptr) {
+    actual = actual->next;
+    contador++;
+  }
+  if (actual->next == nullptr || actual == nullptr) {
+    return 0;  // indice fuera de rango
+  }
+  Nodo* temp = actual->next;
+  actual->next = temp->next;
+
+  if (temp->next != nullptr) {
+    temp->next->prev = actual;
+  }
+  delete temp;
+  return 1;
+}
+
 void doublyLinkedList::display() {
   Nodo* actual = head;
   cout << "nullptr";

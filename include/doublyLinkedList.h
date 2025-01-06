@@ -8,10 +8,10 @@ using namespace std;
 class doublyLinkedList {
  private:
   struct Nodo {
-    Nodo* prev;
     int data;
+    Nodo* prev;
     Nodo* next;
-    Nodo(int d) : data(d), next(nullptr), prev(nullptr) {}
+    Nodo(int val) : data(val), next(nullptr), prev(nullptr) {}
   };
   Nodo* head;
 

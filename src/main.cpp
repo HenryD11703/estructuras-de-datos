@@ -10,7 +10,8 @@ int main() {
   lista.insertAtHead(1);
   lista.insertAtHead(2);
   lista.insertAtHead(3);
-  lista.insertAtEnd(100);
+
+  lista.deleteAtIndex(1);
 
   // lista.deleteHead();
 
