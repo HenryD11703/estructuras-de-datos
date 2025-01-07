@@ -5,7 +5,8 @@
 
 using namespace std;
 
-doublyCircularList::doublyCircularList() : head(nullptr), tail(nullptr) {}
+doublyCircularList::doublyCircularList()
+    : head(nullptr), tail(nullptr), counter(0) {}
 
 doublyCircularList::~doublyCircularList() {
   if (head == nullptr) return;
@@ -15,6 +16,7 @@ doublyCircularList::~doublyCircularList() {
     delete actual;
     actual = siguiente;
   } while (actual != head);
+  counter = 0;
 }
 
 int doublyCircularList::insertAtHead(int id) {
@@ -25,7 +27,6 @@ int doublyCircularList::insertAtHead(int id) {
     nuevo->prev = nuevo;
     head = nuevo;
     tail = nuevo;
-    return 1;
   } else {
     nuevo->next = head;
     nuevo->prev = tail;
@@ -34,8 +35,9 @@ int doublyCircularList::insertAtHead(int id) {
     head->prev = nuevo;
 
     head = nuevo;
-    return 1;
   }
+  counter++;
+  return 1;
 }
 
 int doublyCircularList::deleteAtHead() {
@@ -46,14 +48,14 @@ int doublyCircularList::deleteAtHead() {
     delete head;
     head = nullptr;
     tail = nullptr;
-    return 1;
   } else {
     tail->next = head->next;
     head->next->prev = tail;
     delete head;
     head = tail->next;
-    return 1;
   }
+  counter--;
+  return 1;
 }
 
 int doublyCircularList::insertAtTail(int id) {
@@ -74,6 +76,7 @@ int doublyCircularList::insertAtTail(int id) {
 
     tail = nuevo;
   }
+  counter++;
   return 1;
 }
 
@@ -91,6 +94,49 @@ int doublyCircularList::deleteAtTail() {
     delete tail;
     tail = head->prev;
   }
+  counter--;
+  return 1;
+}
+
+int doublyCircularList::insertAtIndex(int idx, int val) {
+  Nodo* nuevo = new (std::nothrow) Nodo(val);
+  if (!nuevo) return -1;
+  if (tail == nullptr) {
+    tail = nuevo;
+    head = nuevo;
+    nuevo->next = nuevo;
+    nuevo->prev = nuevo;
+  } else if (idx > counter || idx < 0) {
+    cout << "Error, Indice fuera de rango" << endl;
+    return -1;
+  } else if (idx == 0) {
+    delete nuevo;
+    insertAtHead(val);
+    return 1;
+  } else if (idx == counter) {
+    delete nuevo;
+    insertAtTail(val);
+    return 1;
+  } else {
+    Nodo* actual = nullptr;
+    if (idx < counter / 2) {
+      actual = head;
+      for (int i = 0; i < idx; ++i) {
+        actual = actual->next;
+      }
+    } else {
+      actual = tail;
+      for (int i = counter - 1; i > idx; --i) {
+        actual = actual->prev;
+      }
+    }
+    nuevo->prev = actual->prev;
+    nuevo->next = actual;
+
+    actual->prev->next = nuevo;
+    actual->prev = nuevo;
+  }
+  counter++;
   return 1;
 }
 

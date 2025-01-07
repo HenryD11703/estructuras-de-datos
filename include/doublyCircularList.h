@@ -15,6 +15,7 @@ class doublyCircularList {
   };
   Nodo* head;
   Nodo* tail;
+  int counter;
 
  public:
   doublyCircularList();
@@ -25,6 +26,7 @@ class doublyCircularList {
   int deleteAtTail();
   int insertAtIndex(int index, int val);
   int deleteAtIndex(int index);
+  Nodo* findNodeAtIndex(int idx) const;
   void generateGraphviz();
 };
 
