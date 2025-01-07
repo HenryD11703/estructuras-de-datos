@@ -128,27 +128,47 @@ void linkedList::display() {
 }
 
 void linkedList::generateGraphviz() {
-  ofstream archivo;
-  archivo.open("./utils/graphviz/linkedList.dot");
-  if (archivo.is_open()) {
-    archivo << "digraph g {" << endl;
-    archivo << "Head [label=\"head\"];" << endl;
-    archivo << "Head -> 1" << endl;
+  ofstream file;
+  file.open("./utils/graphviz/linkedList.dot");
+  if (file.is_open()) {
+    file << "digraph g {" << endl;
+    file << "node [shape=box, style=filled, fontname=\"Helvetica\"];" << endl;
+
+    // Head node
+    file << "Head [label=\"Head\", color=lightblue, fillcolor=lightblue];"
+         << endl;
 
     Nodo* actual = head;
-    int contador = 1;
 
-    while (actual != nullptr) {
-      archivo << contador << "[label=\"" << actual->data << "\\n"
-              << actual << "\"]" << endl;
-      archivo << contador << "->" << contador + 1 << endl;
-      contador++;
-      actual = actual->next;
+    if (head == nullptr) {
+      file << "\"Empty List\"" << endl;
+    } else {
+      file << "Head ->" << "\"" << actual << "\"" << endl;
+
+      // Generar nodos de la lista
+      int contador = 1;
+      while (actual != nullptr) {
+        file << "\"" << actual << "\"" << "[label=\"" << actual->data << "\\n"
+             << actual << "\", color=lightblue, fillcolor=lightblue];" << endl;
+
+        if (actual->next != nullptr) {
+          file << "\"" << actual << "\"" << " -> " << "\"" << actual->next
+               << "\""
+               << "[label=\"Next\", color=black];" << endl;
+        } else {
+          file << "\"" << actual << "\"" << " -> nullptr "
+               << "[label=\"Next\", color=black];" << endl;
+        }
+
+        actual = actual->next;
+        contador++;
+      }
     }
-    archivo << contador << "[label=\"nullptr\"]" << endl;
-    archivo << "}" << endl;
-    archivo.close();
+    file << "rankdir=LR;" << endl;
+    file << "nodesep = 0.1;" << endl;
+    file << "}" << endl;
   }
+  file.close();
 }
 
 int linkedList::getLength() {

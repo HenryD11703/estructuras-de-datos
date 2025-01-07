@@ -175,57 +175,57 @@ int doublyLinkedList::get(int index) {
 }
 
 void doublyLinkedList::generateGraphviz() {
-  ofstream archivo;
-  archivo.open("./utils/graphviz/doublyLinkedList.dot");
+  ofstream file;
+  file.open("./utils/graphviz/doublyLinkedList.dot");
 
-  if (archivo.is_open()) {
-    archivo << "digraph g {" << endl;
-    archivo << "rankdir=LR;"
-            << endl;  // Para que el grafo se dibuje de izquierda a derecha
+  if (file.is_open()) {
+    file << "digraph g {" << endl;
+    file << "rankdir=LR;" << endl;
+    file << "node [shape=box, style=filled, fontname=\"Helvetica\"];" << endl;
 
-    // Caso lista vacía
     if (head == nullptr) {
-      archivo << "Empty [label=\"Empty List\"];" << endl;
-      archivo << "}" << endl;
-      archivo.close();
+      file << "Empty [label=\"Empty List\", color=lightblue, "
+              "fillcolor=lightblue];"
+           << endl;
+      file << "}" << endl;
+      file.close();
       return;
     }
 
-    // Nodos especiales
-    archivo << "Head [label=\"head\"];" << endl;
-    archivo << "null1 [label=\"nullptr\"];" << endl;
-    archivo << "null2 [label=\"nullptr\"];" << endl;
+    file << "Head [label=\"Head\", color=lightblue, fillcolor=lightblue];"
+         << endl;
+    file << "null1 [label=\"nullptr\", color=lightblue, fillcolor=lightblue];"
+         << endl;
+    file << "null2 [label=\"nullptr\", color=lightblue, fillcolor=lightblue];"
+         << endl;
 
-    // Enlace desde head al primer nodo
-    archivo << "Head -> \"" << head << "\";" << endl;
+    file << "Head -> \"" << head << "\";" << endl;
 
-    // Recorrer la lista
     Nodo* actual = head;
     while (actual != nullptr) {
-      // Crear nodo actual
-      archivo << "\"" << actual << "\" [label=\"" << actual->data << "\"];"
-              << endl;
+      file << "\"" << actual << "\" [label=\"" << actual->data
+           << "\", color=lightblue, fillcolor=lightblue];" << endl;
 
-      // Enlaces hacia adelante
       if (actual->next != nullptr) {
-        archivo << "\"" << actual << "\" -> \"" << actual->next << "\";"
-                << endl;
+        file << "\"" << actual << "\" -> \"" << actual->next
+             << "\" [label=\"Next\", color=black];" << endl;
       } else {
-        archivo << "\"" << actual << "\" -> null2;" << endl;
+        file << "\"" << actual << "\" -> null2 [label=\"Next\", color=black];"
+             << endl;
       }
 
-      // Enlaces hacia atrás
       if (actual->prev != nullptr) {
-        archivo << "\"" << actual << "\" -> \"" << actual->prev
-                << "\" [constraint=false];" << endl;
+        file << "\"" << actual << "\" -> \"" << actual->prev
+             << "\" [constraint=false, label=\"Prev\", color=black];" << endl;
       } else {
-        archivo << "\"" << actual << "\" -> null1;" << endl;
+        file << "\"" << actual << "\" -> null1 [label=\"Prev\", color=black];"
+             << endl;
       }
 
       actual = actual->next;
     }
 
-    archivo << "}" << endl;
-    archivo.close();
+    file << "}" << endl;
+    file.close();
   }
 }

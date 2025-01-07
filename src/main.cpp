@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "../include/doublyCircularList.h"
 #include "../include/doublyLinkedList.h"
 #include "../include/linkedList.h"
 
@@ -10,18 +11,9 @@ int main() {
   lista.insertAtHead(1);
   lista.insertAtHead(2);
   lista.insertAtHead(3);
-  cout << lista.search(3) << endl;
+  lista.insertAtHead(4);
+
   lista.generateGraphviz();
 
-  // lista.deleteHead();
-
-  lista.display();
-
   return 0;
-}
-
-void menu() {
-  while (true) {
-    cout << "Seleccione una opcion: " << endl;
-  }
 }
