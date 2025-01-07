@@ -21,6 +21,10 @@ class doublyCircularList {
   ~doublyCircularList();
   int insertAtHead(int val);
   int deleteAtHead();
+  int insertAtTail(int val);
+  int deleteAtTail();
+  int insertAtIndex(int index, int val);
+  int deleteAtIndex(int index);
   void generateGraphviz();
 };
 

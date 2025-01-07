@@ -18,7 +18,8 @@ doublyCircularList::~doublyCircularList() {
 }
 
 int doublyCircularList::insertAtHead(int id) {
-  Nodo* nuevo = new Nodo(id);
+  Nodo* nuevo = new (std::nothrow) Nodo(id);
+  if (!nuevo) return -1;
   if (tail == nullptr) {
     nuevo->next = nuevo;
     nuevo->prev = nuevo;
@@ -53,6 +54,44 @@ int doublyCircularList::deleteAtHead() {
     head = tail->next;
     return 1;
   }
+}
+
+int doublyCircularList::insertAtTail(int id) {
+  Nodo* nuevo = new (std::nothrow) Nodo(id);
+  if (!nuevo) return -1;
+
+  if (tail == nullptr) {
+    head = nuevo;
+    tail = nuevo;
+    nuevo->next = nuevo;
+    nuevo->prev = nuevo;
+  } else {
+    head->prev = nuevo;
+    tail->next = nuevo;
+
+    nuevo->next = head;
+    nuevo->prev = tail;
+
+    tail = nuevo;
+  }
+  return 1;
+}
+
+int doublyCircularList::deleteAtTail() {
+  if (tail == nullptr) {
+    cout << "Error, lista vacia" << endl;
+    return -1;
+  } else if (tail == head) {
+    delete tail;
+    head = nullptr;
+    tail = nullptr;
+  } else {
+    head->prev = tail->prev;
+    tail->prev->next = head;
+    delete tail;
+    tail = head->prev;
+  }
+  return 1;
 }
 
 void doublyCircularList::generateGraphviz() {
