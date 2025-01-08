@@ -146,8 +146,10 @@ void handleDoublyCircularList(doublyCircularList& dcl) {
   cout << "4. Eliminar final" << endl;
   cout << "5. Insertar en índice" << endl;
   cout << "6. Eliminar indice" << endl;
-
-  cout << "7. Generar Graphviz" << endl;
+  cout << "7. Buscar valor" << endl;
+  cout << "8. Obtener valor por índice" << endl;
+  cout << "9. Obtener longitud" << endl;
+  cout << "10. Generar Graphviz" << endl;
   cout << "Selecciona una opción: ";
   cin >> choice;
 
@@ -181,6 +183,19 @@ void handleDoublyCircularList(doublyCircularList& dcl) {
       dcl.deleteAtIndex(index);
       break;
     case 7:
+      cout << "Valor a buscar: ";
+      cin >> value;
+      dcl.search(value);
+      break;
+    case 8:
+      cout << "Indice a buscar: ";
+      cin >> index;
+      dcl.get(index);
+      break;
+    case 9:
+      cout << "\nLongitud de la lista: " << dcl.getLength() << endl;
+      break;
+    case 10:
       dcl.generateGraphviz();
       break;
     default:
