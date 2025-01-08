@@ -145,8 +145,9 @@ void handleDoublyCircularList(doublyCircularList& dcl) {
   cout << "3. Eliminar cabeza" << endl;
   cout << "4. Eliminar final" << endl;
   cout << "5. Insertar en índice" << endl;
+  cout << "6. Eliminar indice" << endl;
 
-  cout << "6. Generar Graphviz" << endl;
+  cout << "7. Generar Graphviz" << endl;
   cout << "Selecciona una opción: ";
   cin >> choice;
 
@@ -170,11 +171,16 @@ void handleDoublyCircularList(doublyCircularList& dcl) {
     case 5:
       cout << "Valor a insertar: ";
       cin >> value;
-      cout << "Índice: ";
+      cout << "Indice: ";
       cin >> index;
       dcl.insertAtIndex(index, value);
       break;
     case 6:
+      cout << "Indice: ";
+      cin >> index;
+      dcl.deleteAtIndex(index);
+      break;
+    case 7:
       dcl.generateGraphviz();
       break;
     default:

@@ -152,6 +152,23 @@ int doublyCircularList::deleteAtIndex(int idx) {
   return 1;
 }
 
+int doublyCircularList::getLength() { return counter; }
+
+int doublyCircularList::search(int id) {
+  if (head == nullptr) {
+    cout << "Error, lista vacia" << endl;
+    return -1;
+  }
+  Nodo* actual = head;
+  int position = 0;
+  do {
+    if (actual->data == id) return position;
+    position++;
+    actual = actual->next;
+  } while (actual != head);
+  return -1;
+}
+
 doublyCircularList::Nodo* doublyCircularList::findNodeAtIndex(int idx) const {
   if (idx < 0 || idx >= counter) return nullptr;
 

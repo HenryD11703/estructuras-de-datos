@@ -26,6 +26,9 @@ class doublyCircularList {
   int deleteAtTail();
   int insertAtIndex(int index, int val);
   int deleteAtIndex(int index);
+  int getLength();
+  int search(int id);
+  int get(int idx);
   Nodo* findNodeAtIndex(int idx) const;
   void generateGraphviz();
 };
