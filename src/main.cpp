@@ -138,13 +138,15 @@ void handleDoublyLinkedList(doublyLinkedList& dll) {
 }
 
 void handleDoublyCircularList(doublyCircularList& dcl) {
-  int choice, value;
+  int choice, value, index;
   cout << "\nOpciones de Lista Doblemente Circular:" << endl;
   cout << "1. Insertar al inicio" << endl;
   cout << "2. Insertar al final" << endl;
   cout << "3. Eliminar cabeza" << endl;
   cout << "4. Eliminar final" << endl;
-  cout << "5. Generar Graphviz" << endl;
+  cout << "5. Insertar en índice" << endl;
+
+  cout << "6. Generar Graphviz" << endl;
   cout << "Selecciona una opción: ";
   cin >> choice;
 
@@ -166,6 +168,13 @@ void handleDoublyCircularList(doublyCircularList& dcl) {
       dcl.deleteAtTail();
       break;
     case 5:
+      cout << "Valor a insertar: ";
+      cin >> value;
+      cout << "Índice: ";
+      cin >> index;
+      dcl.insertAtIndex(index, value);
+      break;
+    case 6:
       dcl.generateGraphviz();
       break;
     default:

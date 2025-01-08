@@ -107,7 +107,7 @@ int doublyCircularList::insertAtIndex(int idx, int val) {
     nuevo->next = nuevo;
     nuevo->prev = nuevo;
   } else if (idx > counter || idx < 0) {
-    cout << "Error, Indice fuera de rango" << endl;
+    cerr << "Error, Indice fuera de rango" << endl;
     return -1;
   } else if (idx == 0) {
     delete nuevo;
@@ -118,18 +118,7 @@ int doublyCircularList::insertAtIndex(int idx, int val) {
     insertAtTail(val);
     return 1;
   } else {
-    Nodo* actual = nullptr;
-    if (idx < counter / 2) {
-      actual = head;
-      for (int i = 0; i < idx; ++i) {
-        actual = actual->next;
-      }
-    } else {
-      actual = tail;
-      for (int i = counter - 1; i > idx; --i) {
-        actual = actual->prev;
-      }
-    }
+    Nodo* actual = findNodeAtIndex(idx);
     nuevo->prev = actual->prev;
     nuevo->next = actual;
 
@@ -138,6 +127,43 @@ int doublyCircularList::insertAtIndex(int idx, int val) {
   }
   counter++;
   return 1;
+}
+
+int doublyCircularList::deleteAtIndex(int idx) {
+  if (tail == nullptr) {
+    cerr << "Error, lista vacia" << endl;
+    return -1;
+  } else if (idx > counter - 1 || idx < 0) {
+    cerr << "Error, indice fuera de rango" << endl;
+    return -1;
+  } else if (idx == 0) {
+    deleteAtHead();
+    return 1;
+  } else if (idx == counter - 1) {
+    deleteAtTail();
+    return 1;
+  } else {
+    Nodo* actual = findNodeAtIndex(idx);
+    actual->next->prev = actual->prev;
+    actual->prev->next = actual->next;
+    delete actual;
+  }
+  counter--;
+  return 1;
+}
+
+doublyCircularList::Nodo* doublyCircularList::findNodeAtIndex(int idx) const {
+  if (idx < 0 || idx >= counter) return nullptr;
+
+  if (idx < counter / 2) {
+    Nodo* actual = head;
+    for (int i = 0; i < idx; ++i) actual = actual->next;
+    return actual;
+  } else {
+    Nodo* actual = tail;
+    for (int i = counter - 1; i > idx; --i) actual = actual->prev;
+    return actual;
+  }
 }
 
 void doublyCircularList::generateGraphviz() {
