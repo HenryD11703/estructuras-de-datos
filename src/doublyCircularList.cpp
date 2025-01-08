@@ -169,6 +169,17 @@ int doublyCircularList::search(int id) {
   return -1;
 }
 
+int doublyCircularList::get(int idx) {
+  if (tail == nullptr) {
+    return -1;
+  } else if (idx > counter - 1 || idx < 0) {
+    return -1;
+  } else {
+    Nodo* _nodo = findNodeAtIndex(idx);
+    return _nodo->data;
+  }
+}
+
 doublyCircularList::Nodo* doublyCircularList::findNodeAtIndex(int idx) const {
   if (idx < 0 || idx >= counter) return nullptr;
 
