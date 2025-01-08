@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "../include/binarySearchTree.h"
 #include "../include/doublyCircularList.h"
 #include "../include/doublyLinkedList.h"
 #include "../include/linkedList.h"
@@ -13,8 +14,32 @@ void displayMenu() {
   cout << "1. Lista Enlazada (Simple)" << endl;
   cout << "2. Lista Doblemente Enlazada" << endl;
   cout << "3. Lista Doblemente Circular" << endl;
-  cout << "4. Salir" << endl;
+  cout << "4. Arbol Binario de Busqueda" << endl;
+  cout << "5. Salir" << endl;
   cout << "Selecciona una opción: ";
+}
+
+void handleBinarySearchTree(binarySearchTree& bst) {
+  int choice, value;
+  cout << "\nOpciones del Arbol binario de busqueda: " << endl;
+  cout << "1. Insertar" << endl;
+  cout << "2. Eliminar" << endl;
+  cin >> choice;
+
+  switch (choice) {
+    case 1:
+      cout << "Valor a insertar: ";
+      cin >> value;
+      bst.insert(value);
+      break;
+    case 2:
+      cout << "Valor a eliminar: ";
+      cin >> value;
+      bst.deleteNode(value);
+      break;
+    default:
+      break;
+  }
 }
 
 void handleLinkedList(linkedList& ll) {
@@ -207,6 +232,7 @@ int main() {
   linkedList ll;
   doublyLinkedList dll;
   doublyCircularList dcl;
+  binarySearchTree bst;
 
   int choice;
   while (true) {
@@ -224,6 +250,9 @@ int main() {
         handleDoublyCircularList(dcl);
         break;
       case 4:
+        handleBinarySearchTree(bst);
+        break;
+      case 5:
         cout << "Saliendo del programa..." << endl;
         return 0;
       default:
