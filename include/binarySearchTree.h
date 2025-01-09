@@ -24,6 +24,8 @@ class binarySearchTree {
   Nodo* insert(Nodo* node, int val);
   void deleteNode(int val);
   Nodo* deleteNode(Nodo* node, int val);
+  void generateGraphviz() const;
+  void generateGraphviz(ofstream& file, Nodo* node) const;
 };
 
 #endif

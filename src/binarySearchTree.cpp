@@ -75,3 +75,37 @@ binarySearchTree::Nodo* binarySearchTree::deleteNode(Nodo* node, int val) {
   }
   return node;
 }
+
+void binarySearchTree::generateGraphviz() const {
+  ofstream file;
+  file.open("./utils/graphviz/binarySearchTree.dot");
+  if (file.is_open()) {
+    file << "digraph g {" << endl;
+    file << "node [shape=circle, style=filled, fontname=\"Helvetica\"];"
+         << endl;
+    generateGraphviz(file, root);
+    file << "rankdir=TB;" << endl;
+    file << "nodesep = 0.1" << endl;
+    file << "}" << endl;
+  }
+  file.close();
+}
+void binarySearchTree::generateGraphviz(ofstream& file, Nodo* node) const {
+  if (node == nullptr) {
+    return;
+  }
+  file << "\"" << node << "\"" << "[label=\"" << node->value << "("
+       << node->count << ")" << "\"];" << endl;
+
+  // si el nodo, tiene hijo izquierdo
+  if (node->left) {
+    file << "\"" << node << "\"" << "->" << "\"" << node->left << "\""
+         << "[label=\"L\", color=black]" << endl;
+    generateGraphviz(file, node->left);
+  }
+  if (node->right) {
+    file << "\"" << node << "\"" << "->" << "\"" << node->right << "\""
+         << "[label=\"R\", color=black]" << endl;
+    generateGraphviz(file, node->right);
+  }
+}

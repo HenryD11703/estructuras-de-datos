@@ -24,6 +24,7 @@ void handleBinarySearchTree(binarySearchTree& bst) {
   cout << "\nOpciones del Arbol binario de busqueda: " << endl;
   cout << "1. Insertar" << endl;
   cout << "2. Eliminar" << endl;
+  cout << "3. Generar Graphviz" << endl;
   cin >> choice;
 
   switch (choice) {
@@ -37,6 +38,8 @@ void handleBinarySearchTree(binarySearchTree& bst) {
       cin >> value;
       bst.deleteNode(value);
       break;
+    case 3:
+      bst.generateGraphviz();
     default:
       break;
   }
