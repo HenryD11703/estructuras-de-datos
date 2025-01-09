@@ -1,0 +1,20 @@
+digraph g {
+rankdir=LR;
+node [shape=box, style=filled, fontname="Helvetica"];
+Head [label="Head", color=lightblue, fillcolor=lightblue];
+null1 [label="nullptr", color=lightblue, fillcolor=lightblue];
+null2 [label="nullptr", color=lightblue, fillcolor=lightblue];
+Head -> "0x5dd8162ae310";
+"0x5dd8162ae310" [label="4", color=lightblue, fillcolor=lightblue];
+"0x5dd8162ae310" -> "0x5dd8162ae2f0" [label="Next", color=black];
+"0x5dd8162ae310" -> null1 [label="Prev", color=black];
+"0x5dd8162ae2f0" [label="3", color=lightblue, fillcolor=lightblue];
+"0x5dd8162ae2f0" -> "0x5dd8162ae2d0" [label="Next", color=black];
+"0x5dd8162ae2f0" -> "0x5dd8162ae310" [constraint=false, label="Prev", color=black];
+"0x5dd8162ae2d0" [label="2", color=lightblue, fillcolor=lightblue];
+"0x5dd8162ae2d0" -> "0x5dd8162ae2b0" [label="Next", color=black];
+"0x5dd8162ae2d0" -> "0x5dd8162ae2f0" [constraint=false, label="Prev", color=black];
+"0x5dd8162ae2b0" [label="1", color=lightblue, fillcolor=lightblue];
+"0x5dd8162ae2b0" -> null2 [label="Next", color=black];
+"0x5dd8162ae2b0" -> "0x5dd8162ae2d0" [constraint=false, label="Prev", color=black];
+}

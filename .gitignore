@@ -5,5 +5,4 @@ bin/
 *.o
 *.out
 *.log
-*.dot
 

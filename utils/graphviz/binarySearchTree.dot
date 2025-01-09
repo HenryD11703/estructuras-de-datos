@@ -1,0 +1,10 @@
+digraph g {
+node [shape=circle, style=filled, fontname="Helvetica"];
+"0x5f1a534f3ad0"[label="5(1)"];
+"0x5f1a534f3ad0"->"0x5f1a534f3af0"[label="L", color=black]
+"0x5f1a534f3af0"[label="3(1)"];
+"0x5f1a534f3ad0"->"0x5f1a534f3b10"[label="R", color=black]
+"0x5f1a534f3b10"[label="65(1)"];
+rankdir=TB;
+nodesep = 0.1
+}
