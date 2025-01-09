@@ -76,6 +76,21 @@ binarySearchTree::Nodo* binarySearchTree::deleteNode(Nodo* node, int val) {
   return node;
 }
 
+binarySearchTree::Nodo* binarySearchTree::search(int val) {
+  return search(root, val);
+}
+
+binarySearchTree::Nodo* binarySearchTree::search(Nodo* node, int val) {
+  if (node == nullptr || node->value == val) {
+    return node;
+  }
+  if (val > node->value) {
+    return search(node->right, val);
+  } else if (val < node->value) {
+    return search(node->left, val);
+  }
+}
+
 void binarySearchTree::generateGraphviz() const {
   ofstream file;
   file.open("./utils/graphviz/binarySearchTree.dot");
