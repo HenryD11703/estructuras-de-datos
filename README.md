@@ -5,4 +5,6 @@ I am making this repository to keep track of the data structures I have learned 
 ## Table of Contents
 
 - [Linked List](docs/linkedList/README.md)
-- (Other data structures will go here...)
+- [Doubly Linked List](docs/doublyLinkedList/README.md)
+- [Doubly Circular Linked List](docs/doublyCircularList/README.md)
+- [Binary Search Tree](docs/binarySearchTree/README.md)
