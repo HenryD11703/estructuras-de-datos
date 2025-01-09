@@ -28,6 +28,12 @@ class binarySearchTree {
   Nodo* search(Nodo* node, int val);
   void generateGraphviz() const;
   void generateGraphviz(ofstream& file, Nodo* node) const;
+  void preorder();
+  void preorder(Nodo* node);
+  void inorder();
+  void inorder(Nodo* node);
+  void postorder();
+  void postorder(Nodo* node);
 };
 
 #endif

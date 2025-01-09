@@ -25,6 +25,8 @@ void handleBinarySearchTree(binarySearchTree& bst) {
   cout << "1. Insertar" << endl;
   cout << "2. Eliminar" << endl;
   cout << "3. Generar Graphviz" << endl;
+  cout << "4. Preorder" << endl;
+  cout << "5. Inorder" << endl;
   cin >> choice;
 
   switch (choice) {
@@ -39,7 +41,18 @@ void handleBinarySearchTree(binarySearchTree& bst) {
       bst.deleteNode(value);
       break;
     case 3:
+      bst.insert(50);
+      bst.insert(30);
+      bst.insert(20);
+      bst.insert(40);
+      bst.insert(70);
+      bst.insert(60);
+      bst.insert(80);
       bst.generateGraphviz();
+    case 4:
+      bst.preorder();
+    case 5:
+      bst.inorder();
     default:
       break;
   }

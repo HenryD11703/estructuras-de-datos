@@ -91,6 +91,33 @@ binarySearchTree::Nodo* binarySearchTree::search(Nodo* node, int val) {
   }
 }
 
+void binarySearchTree::preorder() { preorder(root); }
+
+void binarySearchTree::preorder(Nodo* node) {
+  if (node == nullptr) return;
+  cout << node->value << " ";
+  preorder(node->left);
+  preorder(node->right);
+}
+
+void binarySearchTree::inorder() { inorder(root); }
+
+void binarySearchTree::inorder(Nodo* node) {
+  if (node == nullptr) return;
+  inorder(node->left);
+  cout << node->value << " ";
+  inorder(node->right);
+}
+
+void binarySearchTree::postorder() { postorder(root); }
+
+void binarySearchTree::postorder(Nodo* node) {
+  if (node == nullptr) return;
+  postorder(node->left);
+  cout << node->value << " ";
+  postorder(node->right);
+}
+
 void binarySearchTree::generateGraphviz() const {
   ofstream file;
   file.open("./utils/graphviz/binarySearchTree.dot");
