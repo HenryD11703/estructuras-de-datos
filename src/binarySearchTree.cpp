@@ -20,9 +20,9 @@ binarySearchTree::Nodo* binarySearchTree::insert(Nodo* node, int val) {
     return node;
   }
   if (val < node->value)
-    node->izq = insert(node->izq, val);
+    node->left = insert(node->left, val);
   else
-    node->der = insert(node->der, val);
+    node->right = insert(node->right, val);
 
   return node;
 }
@@ -34,9 +34,9 @@ binarySearchTree::Nodo* binarySearchTree::deleteNode(Nodo* node, int val) {
     return nullptr;
   }
   if (val > node->value) {
-    node->der = deleteNode(node->der, val);
+    node->right = deleteNode(node->right, val);
   } else if (val < node->value) {
-    node->izq = deleteNode(node->izq, val);
+    node->left = deleteNode(node->left, val);
   }
   if (val == node->value) {
     // aca eliminar el nodo
@@ -44,24 +44,20 @@ binarySearchTree::Nodo* binarySearchTree::deleteNode(Nodo* node, int val) {
       node->count--;
       return node;
     }
-    if (node->izq == nullptr && node->der == nullptr) {
+    if (node->left == nullptr && node->right == nullptr) {
       // es hoja
       delete node;
       return nullptr;
-    } else if (node->izq == nullptr || node->der == nullptr) {
+    } else if (node->left == nullptr || node->right == nullptr) {
       // tiene un solo hijo
-      Nodo* temp;
-      if (!node->izq)
-        temp = node->der;
-      else
-        temp = node->izq;
+      Nodo* temp = node->left ? node->left : node->right;
       delete node;
       return temp;
     } else {
       // tiene dos hijos
-      Nodo* sucesor = node->der;
-      while (sucesor->izq != nullptr) {
-        sucesor = sucesor->izq;
+      Nodo* sucesor = node->right;
+      while (sucesor->left != nullptr) {
+        sucesor = sucesor->left;
       }
 
       node->value = sucesor->value;
@@ -74,8 +70,8 @@ binarySearchTree::Nodo* binarySearchTree::deleteNode(Nodo* node, int val) {
       // eliminar el nodo mas pequeño del lado derecho del nodo que se esta
       // buscando eliminar
 
-      node->der = deleteNode(node->der, sucesor->value);
-      return node;
+      node->right = deleteNode(node->right, sucesor->value);
     }
   }
+  return node;
 }

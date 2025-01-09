@@ -8,11 +8,11 @@ using namespace std;
 class binarySearchTree {
  private:
   struct Nodo {
-    Nodo* izq;
-    Nodo* der;
+    Nodo* left;
+    Nodo* right;
     int value;
     int count;
-    Nodo(int val) : izq(nullptr), der(nullptr), value(val), count(1) {}
+    Nodo(int val) : left(nullptr), right(nullptr), value(val), count(1) {}
   };
   Nodo* root;
   int counter;
