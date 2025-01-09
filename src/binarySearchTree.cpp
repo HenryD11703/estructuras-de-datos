@@ -6,11 +6,9 @@
 using namespace std;
 
 binarySearchTree::binarySearchTree() : root(nullptr), counter(0) {}
-
 binarySearchTree::~binarySearchTree() {}
 
 void binarySearchTree::insert(int val) { root = insert(root, val); }
-
 binarySearchTree::Nodo* binarySearchTree::insert(Nodo* node, int val) {
   if (node == nullptr) {
     return new Nodo(val);
@@ -28,7 +26,6 @@ binarySearchTree::Nodo* binarySearchTree::insert(Nodo* node, int val) {
 }
 
 void binarySearchTree::deleteNode(int val) { root = deleteNode(root, val); }
-
 binarySearchTree::Nodo* binarySearchTree::deleteNode(Nodo* node, int val) {
   if (node == nullptr) {
     return nullptr;
@@ -79,7 +76,6 @@ binarySearchTree::Nodo* binarySearchTree::deleteNode(Nodo* node, int val) {
 binarySearchTree::Nodo* binarySearchTree::search(int val) {
   return search(root, val);
 }
-
 binarySearchTree::Nodo* binarySearchTree::search(Nodo* node, int val) {
   if (node == nullptr || node->value == val) {
     return node;
@@ -92,7 +88,6 @@ binarySearchTree::Nodo* binarySearchTree::search(Nodo* node, int val) {
 }
 
 void binarySearchTree::preorder() { preorder(root); }
-
 void binarySearchTree::preorder(Nodo* node) {
   if (node == nullptr) return;
   cout << node->value << " ";
@@ -101,7 +96,6 @@ void binarySearchTree::preorder(Nodo* node) {
 }
 
 void binarySearchTree::inorder() { inorder(root); }
-
 void binarySearchTree::inorder(Nodo* node) {
   if (node == nullptr) return;
   inorder(node->left);
@@ -110,12 +104,24 @@ void binarySearchTree::inorder(Nodo* node) {
 }
 
 void binarySearchTree::postorder() { postorder(root); }
-
 void binarySearchTree::postorder(Nodo* node) {
   if (node == nullptr) return;
   postorder(node->left);
   cout << node->value << " ";
   postorder(node->right);
+}
+
+int binarySearchTree::findMax() {
+  if (root == nullptr) {
+    throw std::runtime_error("El árbol está vacío");
+  }
+  return findMax(root);
+}
+int binarySearchTree::findMax(Nodo* node) {
+  while (node->right != nullptr) {
+    node = node->right;
+  }
+  return node->value;
 }
 
 void binarySearchTree::generateGraphviz() const {

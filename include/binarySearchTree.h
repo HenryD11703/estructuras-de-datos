@@ -34,6 +34,8 @@ class binarySearchTree {
   void inorder(Nodo* node);
   void postorder();
   void postorder(Nodo* node);
+  int findMax();
+  int findMax(Nodo* node);
 };
 
 #endif

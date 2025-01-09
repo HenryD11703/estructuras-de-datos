@@ -15,6 +15,7 @@ void displayMenu() {
   cout << "2. Lista Doblemente Enlazada" << endl;
   cout << "3. Lista Doblemente Circular" << endl;
   cout << "4. Arbol Binario de Busqueda" << endl;
+  cout << "4. AVL (Self Balancing BST)" << endl;
   cout << "5. Salir" << endl;
   cout << "Selecciona una opción: ";
 }
@@ -27,6 +28,8 @@ void handleBinarySearchTree(binarySearchTree& bst) {
   cout << "3. Generar Graphviz" << endl;
   cout << "4. Preorder" << endl;
   cout << "5. Inorder" << endl;
+  cout << "6. Postorder" << endl;
+  cout << "7. Obtener el valor maximo" << endl;
   cin >> choice;
 
   switch (choice) {
@@ -53,6 +56,10 @@ void handleBinarySearchTree(binarySearchTree& bst) {
       bst.preorder();
     case 5:
       bst.inorder();
+    case 6:
+      bst.postorder();
+    case 7:
+      cout << bst.findMax() << endl;
     default:
       break;
   }
