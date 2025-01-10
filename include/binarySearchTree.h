@@ -36,6 +36,7 @@ class binarySearchTree {
   void postorder(Nodo* node);
   int findMax();
   int findMax(Nodo* node);
+  void destroyTree(Nodo* node);
 };
 
 #endif

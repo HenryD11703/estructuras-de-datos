@@ -6,7 +6,16 @@
 using namespace std;
 
 binarySearchTree::binarySearchTree() : root(nullptr), counter(0) {}
-binarySearchTree::~binarySearchTree() {}
+
+binarySearchTree::~binarySearchTree() { destroyTree(root); }
+
+void binarySearchTree::destroyTree(Nodo* node) {
+  if (node != nullptr) {
+    destroyTree(node->left);
+    destroyTree(node->right);
+    delete node;
+  }
+}
 
 void binarySearchTree::insert(int val) { root = insert(root, val); }
 binarySearchTree::Nodo* binarySearchTree::insert(Nodo* node, int val) {
