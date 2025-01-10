@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "../include/avlTree.h"
 #include "../include/binarySearchTree.h"
 #include "../include/doublyCircularList.h"
 #include "../include/doublyLinkedList.h"
@@ -15,8 +16,8 @@ void displayMenu() {
   cout << "2. Lista Doblemente Enlazada" << endl;
   cout << "3. Lista Doblemente Circular" << endl;
   cout << "4. Arbol Binario de Busqueda" << endl;
-  cout << "4. AVL (Self Balancing BST)" << endl;
-  cout << "5. Salir" << endl;
+  cout << "5. AVL (Self Balancing BST)" << endl;
+  cout << "6. Salir" << endl;
   cout << "Selecciona una opción: ";
 }
 
@@ -44,13 +45,6 @@ void handleBinarySearchTree(binarySearchTree& bst) {
       bst.deleteNode(value);
       break;
     case 3:
-      bst.insert(50);
-      bst.insert(30);
-      bst.insert(20);
-      bst.insert(40);
-      bst.insert(70);
-      bst.insert(60);
-      bst.insert(80);
       bst.generateGraphviz();
     case 4:
       bst.preorder();
@@ -251,11 +245,47 @@ void handleDoublyCircularList(doublyCircularList& dcl) {
   }
 }
 
+void handleAvlTree(avlTree& avl) {
+  int choice, value;
+  cout << "\nOpciones del Arbol binario de busqueda: " << endl;
+  cout << "1. Insertar" << endl;
+  cout << "2. Eliminar" << endl;
+  cout << "3. Generar Graphviz" << endl;
+  cout << "4. Preorder" << endl;
+  cout << "5. Inorder" << endl;
+  cout << "6. Postorder" << endl;
+  cin >> choice;
+
+  switch (choice) {
+    case 1:
+      cout << "Valor a insertar: ";
+      cin >> value;
+      avl.insert(value);
+      break;
+    case 2:
+      cout << "Valor a eliminar: ";
+      cin >> value;
+      // avl.deleteNode(value);
+      break;
+    case 3:
+      avl.generateGraphviz();
+    case 4:
+      avl.preorder();
+    case 5:
+      avl.inorder();
+    case 6:
+      avl.postorder();
+    default:
+      break;
+  }
+}
+
 int main() {
   linkedList ll;
   doublyLinkedList dll;
   doublyCircularList dcl;
   binarySearchTree bst;
+  avlTree avl;
 
   int choice;
   while (true) {
@@ -276,6 +306,9 @@ int main() {
         handleBinarySearchTree(bst);
         break;
       case 5:
+        handleAvlTree(avl);
+        break;
+      case 6:
         cout << "Saliendo del programa..." << endl;
         return 0;
       default:
