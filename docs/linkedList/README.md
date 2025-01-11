@@ -290,4 +290,3 @@ They are not the best choice when random access to elements is required, as this
 - [Wikipedia](https://en.wikipedia.org/wiki/Linked_list)
 
 - [GeeksforGeeks](https://www.geeksforgeeks.org/python-linked-list)
-
