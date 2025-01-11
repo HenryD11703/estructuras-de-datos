@@ -247,7 +247,7 @@ void handleDoublyCircularList(doublyCircularList& dcl) {
 
 void handleAvlTree(avlTree& avl) {
   int choice, value;
-  cout << "\nOpciones del Arbol binario de busqueda: " << endl;
+  cout << "\nOpciones del Arbol AVL " << endl;
   cout << "1. Insertar" << endl;
   cout << "2. Eliminar" << endl;
   cout << "3. Generar Graphviz" << endl;
@@ -265,7 +265,7 @@ void handleAvlTree(avlTree& avl) {
     case 2:
       cout << "Valor a eliminar: ";
       cin >> value;
-      // avl.deleteNode(value);
+      avl.deleteNode(value);
       break;
     case 3:
       avl.generateGraphviz();

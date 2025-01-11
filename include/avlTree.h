@@ -21,6 +21,8 @@ class avlTree {
   void destroyTree(Nodo* node);
   void insert(int val);
   Nodo* insert(Nodo* nodo, int val);
+  void deleteNode(int val);
+  Nodo* deleteNode(Nodo* nodo, int val);
   int getHeight();
   int getHeight(Nodo* nodo);
   Nodo* llRotation(Nodo* nodo);

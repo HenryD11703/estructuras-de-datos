@@ -116,8 +116,8 @@ void binarySearchTree::postorder() { postorder(root); }
 void binarySearchTree::postorder(Nodo* node) {
   if (node == nullptr) return;
   postorder(node->left);
-  cout << node->value << " ";
   postorder(node->right);
+  cout << node->value << " ";
 }
 
 int binarySearchTree::findMax() {

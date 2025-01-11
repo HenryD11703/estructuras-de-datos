@@ -47,6 +47,59 @@ avlTree::Nodo* avlTree::insert(Nodo* nodo, int val) {
   return nodo;
 }
 
+void avlTree::deleteNode(int val) { root = deleteNode(root, val); }
+avlTree::Nodo* avlTree::deleteNode(Nodo* node, int val) {
+  int leftHeight, rightHeight, balanceFactor;
+  if (node == nullptr) {
+    return nullptr;
+  }
+  if (val < node->value) {
+    node->left = deleteNode(node->left, val);
+  } else if (val > node->value) {
+    node->right = deleteNode(node->right, val);
+  } else {
+    if (node->left == nullptr && node->right == nullptr) {
+      delete node;
+      return nullptr;
+    } else if (node->left == nullptr || node->right == nullptr) {
+      Nodo* temp = node->left ? node->left : node->right;
+      delete node;
+      return temp;
+    } else {
+      // tiene dos hijos
+      Nodo* sucesor = node->right;
+      while (sucesor->left != nullptr) {
+        sucesor = sucesor->left;
+      }
+      node->value = sucesor->value;
+      node->right = deleteNode(node->right, sucesor->value);
+    }
+  }
+  node->height = 1 + max(getHeight(node->left), getHeight(node->right));
+  leftHeight = getHeight(node->left);
+  rightHeight = getHeight(node->right);
+  balanceFactor = leftHeight - rightHeight;
+
+  if (balanceFactor > 1) {
+    int leftChildBalance =
+        getHeight(node->left->left) - getHeight(node->left->right);
+    if (leftChildBalance >= 0)
+      return llRotation(node);
+    else
+      return lrRotation(node);
+  }
+  if (balanceFactor < -1) {
+    int rightChildBalance =
+        getHeight(node->right->left) - getHeight(node->right->right);
+    if (rightChildBalance <= 0)
+      return rrRotation(node);
+    else
+      return rlRotation(node);
+  }
+
+  return node;
+}
+
 avlTree::Nodo* avlTree::llRotation(Nodo* nodo) {
   Nodo* newRoot = nodo->left;
   Nodo* rootRight = newRoot->right;
@@ -156,6 +209,6 @@ void avlTree::postorder() { postorder(root); }
 void avlTree::postorder(Nodo* node) {
   if (node == nullptr) return;
   postorder(node->left);
-  cout << node->value << " ";
   postorder(node->right);
+  cout << node->value << " ";
 }
