@@ -8,3 +8,5 @@ I am making this repository to keep track of the data structures I have learned 
 - [Doubly Linked List](docs/doublyLinkedList/README.md) | [Lista doblemente enlazada](docs/doublyLinkedList/ES/README.md)
 - [Doubly Circular Linked List](docs/doublyCircularList/README.md) | [Lista doblemente enlazada circular](docs/doublyCircularList/ES/README.md)
 - [Binary Search Tree](docs/binarySearchTree/README.md) | [Árbol binario de búsqueda](docs/binarySearchTree/ES/README.md)
+- [AVL Tree](docs/avlTree/README.md) | [Árbol AVL](docs/avlTree/ES/README.md)
+
