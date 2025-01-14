@@ -1,15 +1,13 @@
 digraph g {
 node [shape=box, style=filled, fontname="Helvetica"];
 Head [label="Head", color=lightblue, fillcolor=lightblue];
-Head ->"0x77630c002050"
-"0x77630c002050"[label="32\n0x77630c002050", color=lightblue, fillcolor=lightblue];
-"0x77630c002050" -> "0x776318002050"[label="Next", color=black];
-"0x776318002050"[label="12\n0x776318002050", color=lightblue, fillcolor=lightblue];
-"0x776318002050" -> "0x776314002050"[label="Next", color=black];
-"0x776314002050"[label="22\n0x776314002050", color=lightblue, fillcolor=lightblue];
-"0x776314002050" -> "0x77631c002370"[label="Next", color=black];
-"0x77631c002370"[label="32\n0x77631c002370", color=lightblue, fillcolor=lightblue];
-"0x77631c002370" -> nullptr [label="Next", color=black];
+Head ->"0x7527600020a0"
+"0x7527600020a0"[label="432\n0x7527600020a0", color=lightblue, fillcolor=lightblue];
+"0x7527600020a0" -> "0x75275c0020a0"[label="Next", color=black];
+"0x75275c0020a0"[label="432\n0x75275c0020a0", color=lightblue, fillcolor=lightblue];
+"0x75275c0020a0" -> "0x7527640023c0"[label="Next", color=black];
+"0x7527640023c0"[label="432\n0x7527640023c0", color=lightblue, fillcolor=lightblue];
+"0x7527640023c0" -> nullptr [label="Next", color=black];
 rankdir=LR;
 nodesep = 0.1;
 }

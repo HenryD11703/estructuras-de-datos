@@ -6,6 +6,9 @@ mkdir -p ../bin
 
 # Ejecutar el Makefile
 cd ..
+
+make clean
+
 make
 
 # Verificar si la compilación fue exitosa
