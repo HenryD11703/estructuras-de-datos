@@ -40,12 +40,22 @@ class DoublyCircularListServer {
   }
 
   void handleInsertTail(const Request& req, Response& res) {
-    string value = req.get_param_value("value");
-    dcl.insertAtTail(stoi(value));
-    json response = {{"status", "success"},
-                     {"message", "Valor insertado al final"},
-                     {"value", value}};
-    res.set_content(response.dump(), "application/json");
+    try {
+      auto body = json::parse(req.body);  // Parsear JSON
+      int value = body.at("value");       // Obtener valor como entero
+      cout << "Valor Insertado al final: " << value << endl;
+      dcl.insertAtTail(value);
+      json response = {{"status", "success"},
+                       {"message", "Valor insertado al final"},
+                       {"value", value}};
+      res.set_content(response.dump(), "application/json");
+    } catch (const std::exception& e) {
+      json error = {{"status", "error"},
+                    {"message", "Error procesando la solicitud"},
+                    {"exception", e.what()}};
+      res.set_content(error.dump(), "application/json");
+      res.status = 500;
+    }
   }
 
   void handleDeleteTail(const Request& req, Response& res) {
@@ -56,34 +66,62 @@ class DoublyCircularListServer {
   }
 
   void handleInsertAtIndex(const Request& req, Response& res) {
-    string value = req.get_param_value("value");
-    string index = req.get_header_value("index");
-    dcl.insertAtIndex(stoi(index), stoi(value));
-    json response = {{"status", "success"},
-                     {"message", "Valor insertado en el índice especificado"},
-                     {"value", value},
-                     {"index", index}};
-    res.set_content(response.dump(), "application/json");
+    try {
+      auto body = json::parse(req.body);
+      int value = body.at("value");
+      int index = body.at("index");
+      cout << "Valor Insertado: " << value << " en índice: " << index << endl;
+      dcl.insertAtIndex(index, value);
+      json response = {{"status", "success"},
+                       {"message", "Valor insertado en el índice especificado"},
+                       {"value", value},
+                       {"index", index}};
+      res.set_content(response.dump(), "application/json");
+    } catch (const std::exception& e) {
+      json error = {{"status", "error"},
+                    {"message", "Error procesando la solicitud"},
+                    {"exception", e.what()}};
+      res.set_content(error.dump(), "application/json");
+      res.status = 500;
+    }
   }
-
   void handleDeleteAtIndex(const Request& req, Response& res) {
-    string index = req.get_header_value("index");
-    dcl.deleteAtIndex(stoi(index));
-    json response = {{"status", "success"},
-                     {"message", "Valor eliminado del índice especificado"},
-                     {"index", index}};
-    res.set_content(response.dump(), "application/json");
+    try {
+      auto body = json::parse(req.body);
+      int index = body.at("index");
+      cout << "Eliminando valor en índice: " << index << endl;
+      dcl.deleteAtIndex(index);
+      json response = {{"status", "success"},
+                       {"message", "Valor eliminado del índice especificado"},
+                       {"index", index}};
+      res.set_content(response.dump(), "application/json");
+    } catch (const std::exception& e) {
+      json error = {{"status", "error"},
+                    {"message", "Error procesando la solicitud"},
+                    {"exception", e.what()}};
+      res.set_content(error.dump(), "application/json");
+      res.status = 500;
+    }
   }
 
   void handleSearch(const Request& req, Response& res) {
-    string value = req.get_header_value("value");
-    int found = dcl.search(stoi(value));
-    json response = {
-        {"status", "success"},
-        {"message", "Valor encontrado en la posición especificada"},
-        {"value", value},
-        {"position", found}};
-    res.set_content(response.dump(), "application/json");
+    try {
+      auto body = json::parse(req.body);
+      int value = body.at("value");
+      cout << "Buscando valor: " << value << endl;
+      int found = dcl.search(value);
+      json response = {{"status", "success"},
+                       {"message", "Búsqueda completada"},
+                       {"value", value},
+                       {"position", found}};
+      res.set_content(response.dump(), "application/json");
+    } catch (const std::exception& e) {
+      json error = {{"status", "error"},
+                    {"message", "Error procesando la solicitud"},
+                    {"exception", e.what()}};
+      res.set_content(error.dump(), "application/json");
+      res.status = 500;
+    }
   }
 
   void handleGet(const Request& req, Response& res) {
