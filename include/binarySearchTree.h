@@ -27,7 +27,7 @@ class binarySearchTree {
   Nodo* deleteNode(Nodo* node, int val);
   Nodo* search(int val);
   Nodo* search(Nodo* node, int val);
-  void generateGraphviz() const;
+  string generateGraphviz() const;
   void generateGraphviz(stringstream& file, Nodo* node) const;
   string preorder();
   string preorder(stringstream& text, Nodo* node);

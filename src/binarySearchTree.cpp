@@ -146,7 +146,7 @@ int binarySearchTree::findMax(Nodo* node) {
   return node->value;
 }
 
-void binarySearchTree::generateGraphviz() const {
+string binarySearchTree::generateGraphviz() const {
   stringstream file;
   file << "digraph g {" << endl;
   file << "node [shape=circle, style=filled, fontname=\"Helvetica\"];" << endl;
@@ -154,6 +154,8 @@ void binarySearchTree::generateGraphviz() const {
   file << "rankdir=TB;" << endl;
   file << "nodesep = 0.1" << endl;
   file << "}" << endl;
+
+  return file.str();
 }
 
 void binarySearchTree::generateGraphviz(stringstream& file, Nodo* node) const {
