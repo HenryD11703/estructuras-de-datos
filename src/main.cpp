@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "../lib/httplib.h"
+#include "binarySearchTreeEndpoints.cpp"
 #include "doublyCircularListEndpoints.cpp"
 #include "doublyLinkedListEndpoints.cpp"
 #include "linkedListEndpoints.cpp"
@@ -160,16 +161,47 @@ void doublyCircularListRoutes(Server& svr,
           });
 }
 
+void binarySearchTreeRoutes(Server& svr, BinarySearchTreeServer bstServer) {
+  svr.Post("/binarySearchTree/insert",
+           [&bstServer](const Request& req, Response& res) {
+             bstServer.handleInsert(req, res);
+           });
+
+  svr.Delete("/binarySearchTree/delete",
+             [&bstServer](const Request& req, Response& res) {
+               bstServer.handleDelete(req, res);
+             });
+
+  svr.Get("/binarySearchTree/getGraphviz",
+          [&bstServer](const Request& req, Response& res) {
+            bstServer.handleGenerateGraphviz(req, res);
+          });
+  svr.Get("/binarySearchTree/Preorder",
+          [&bstServer](const Request& req, Response& res) {
+            bstServer.handlePreorder(req, res);
+          });
+  svr.Get("/binarySearchTree/Inorder",
+          [&bstServer](const Request& req, Response& res) {
+            bstServer.handleInorder(req, res);
+          });
+  svr.Get("/binarySearchTree/Postorder",
+          [&bstServer](const Request& req, Response& res) {
+            bstServer.handlePostorder(req, res);
+          });
+}
+
 int main() {
   LinkedListServer llServer;
   DoublyLinkedListServer dllServer;
   DoublyCircularListServer dclServer;
+  BinarySearchTreeServer bstServer;
 
   httplib::Server svr;
 
   linkedListRoutes(svr, llServer);
   doublyLinkedListRoutes(svr, dllServer);
   doublyCircularListRoutes(svr, dclServer);
+  binarySearchTreeRoutes(svr, bstServer);
 
   std::cout << "Servidor corriendo en http://localhost:8080" << std::endl;
   svr.listen("0.0.0.0", 8080);

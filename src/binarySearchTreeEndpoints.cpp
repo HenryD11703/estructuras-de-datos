@@ -8,7 +8,7 @@ using namespace httplib;
 using namespace nlohmann;
 using namespace std;
 
-class binarySearchTreeServer {
+class BinarySearchTreeServer {
  private:
   binarySearchTree bst;
 
