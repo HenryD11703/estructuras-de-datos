@@ -28,7 +28,7 @@ class doublyLinkedList {
   void display();
   int search(int id);
   int get(int index);
-  void generateGraphviz();
+  string generateGraphviz();
 };
 
 #endif

@@ -30,7 +30,7 @@ class doublyCircularList {
   int search(int id);
   int get(int idx);
   Nodo* findNodeAtIndex(int idx) const;
-  void generateGraphviz();
+  string generateGraphviz();
 };
 
 #endif

@@ -17,8 +17,7 @@ class DoublyCircularListServer {
     try {
       auto body = json::parse(req.body);  // Parsear JSON
       int value = body.at("value");       // Obtener valor como entero
-      cout << "Valor Insertado: " << value << endl;
-      dcl.insertAtHead(value);  // Insertar en la lista
+      dcl.insertAtHead(value);            // Insertar en la lista
       json response = {{"status", "success"},
                        {"message", "Valor insertado en la cabeza"},
                        {"value", value}};

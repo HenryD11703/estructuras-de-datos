@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -194,57 +195,53 @@ doublyCircularList::Nodo* doublyCircularList::findNodeAtIndex(int idx) const {
   }
 }
 
-void doublyCircularList::generateGraphviz() {
-  ofstream file;
-  file.open("./utils/graphviz/doublyCircularList.dot");
-  if (file.is_open()) {
-    file << "digraph g {" << endl;
-    file << "node [shape=box, style=filled, fontname=\"Helvetica\"];" << endl;
+string doublyCircularList::generateGraphviz() {
+  stringstream file;
+  file << "digraph g {" << endl;
+  file << "node [shape=box, style=filled, fontname=\"Helvetica\"];" << endl;
 
-    // Head and Tail nodes
-    file << "Head [label=\"Head\",color=lightblue, fillcolor=lightblue];"
+  // Head and Tail nodes
+  file << "Head [label=\"Head\",color=lightblue, fillcolor=lightblue];" << endl;
+  file << "Tail [label=\"Tail\",color=lightblue, fillcolor=lightblue];" << endl;
+
+  Nodo* actual = head;
+
+  if (tail == nullptr) {
+    file << "\"Empty List\"" << endl;
+  } else if (head == tail) {
+    file << "\"" << actual << "\"" << "[label=\"" << actual->data << "\"];"
          << endl;
-    file << "Tail [label=\"Tail\",color=lightblue, fillcolor=lightblue];"
+    file << "Head ->" << "\"" << actual << "\"" << endl;
+    file << "Tail ->" << "\"" << actual << "\"" << endl;
+    file << "\"" << actual << "\"" << "->" << "\"" << actual << "\"" << endl;
+    file << "\"" << actual << "\"" << "->" << "\"" << actual << "\"" << endl;
+  } else {
+    file << "Head ->" << "\"" << head << "\"" << endl;
+    file << "Tail ->" << "\"" << tail << "\"" << endl;
+
+    file << "\"" << actual << "\"" << "[label=\"" << actual->data << "\"];"
          << endl;
 
-    Nodo* actual = head;
+    file << "\"" << actual << "\"" << "->" << "\"" << actual->next << "\""
+         << "[label=\"Next\", color=black]" << endl;
+    file << "\"" << actual << "\"" << "->" << "\"" << actual->prev << "\""
+         << "[label=\"Prev\", color=black]" << endl;
 
-    if (tail == nullptr) {
-      file << "\"Empty List\"" << endl;
-    } else if (head == tail) {
+    actual = actual->next;
+    while (actual != head) {
       file << "\"" << actual << "\"" << "[label=\"" << actual->data << "\"];"
            << endl;
-      file << "Head ->" << "\"" << actual << "\"" << endl;
-      file << "Tail ->" << "\"" << actual << "\"" << endl;
-      file << "\"" << actual << "\"" << "->" << "\"" << actual << "\"" << endl;
-      file << "\"" << actual << "\"" << "->" << "\"" << actual << "\"" << endl;
-    } else {
-      file << "Head ->" << "\"" << head << "\"" << endl;
-      file << "Tail ->" << "\"" << tail << "\"" << endl;
-
-      file << "\"" << actual << "\"" << "[label=\"" << actual->data << "\"];"
-           << endl;
-
       file << "\"" << actual << "\"" << "->" << "\"" << actual->next << "\""
            << "[label=\"Next\", color=black]" << endl;
       file << "\"" << actual << "\"" << "->" << "\"" << actual->prev << "\""
            << "[label=\"Prev\", color=black]" << endl;
 
       actual = actual->next;
-      while (actual != head) {
-        file << "\"" << actual << "\"" << "[label=\"" << actual->data << "\"];"
-             << endl;
-        file << "\"" << actual << "\"" << "->" << "\"" << actual->next << "\""
-             << "[label=\"Next\", color=black]" << endl;
-        file << "\"" << actual << "\"" << "->" << "\"" << actual->prev << "\""
-             << "[label=\"Prev\", color=black]" << endl;
-
-        actual = actual->next;
-      }
     }
-    file << "rankdir=LR;" << endl;
-    file << "nodesep = 0.1" << endl;
-    file << "}" << endl;
   }
-  file.close();
+  file << "rankdir=LR;" << endl;
+  file << "nodesep = 0.1" << endl;
+  file << "}" << endl;
+
+  return file.str();
 }

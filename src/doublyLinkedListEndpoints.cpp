@@ -164,10 +164,10 @@ class DoublyLinkedListServer {
 
   void updateGraph(const Request& req, Response& res) {
     try {
-      cout << "Generando Graphviz" << endl;
-      dll.generateGraphviz();
+      string dot = dll.generateGraphviz();
       json response = {{"status", "success"},
-                       {"message", "Updated graph successfully"}};
+                       {"message", "Updated graph successfully"},
+                       {"dot", dot}};
       res.set_content(response.dump(), "application/json");
     } catch (const std::exception& e) {
       json error = {{"status", "error"},

@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -174,58 +175,54 @@ int doublyLinkedList::get(int index) {
   return -1;
 }
 
-void doublyLinkedList::generateGraphviz() {
-  ofstream file;
-  file.open("./utils/graphviz/doublyLinkedList.dot");
+string doublyLinkedList::generateGraphviz() {
+  stringstream file;
 
-  if (file.is_open()) {
-    file << "digraph g {" << endl;
-    file << "rankdir=LR;" << endl;
-    file << "node [shape=box, style=filled, fontname=\"Helvetica\"];" << endl;
+  file << "digraph g {" << endl;
+  file << "rankdir=LR;" << endl;
+  file << "node [shape=box, style=filled, fontname=\"Helvetica\"];" << endl;
 
-    if (head == nullptr) {
-      file << "Empty [label=\"Empty List\", color=lightblue, "
-              "fillcolor=lightblue];"
-           << endl;
-      file << "}" << endl;
-      file.close();
-      return;
-    }
-
-    file << "Head [label=\"Head\", color=lightblue, fillcolor=lightblue];"
+  if (head == nullptr) {
+    file << "Empty [label=\"Empty List\", color=lightblue, "
+            "fillcolor=lightblue];"
          << endl;
-    file << "null1 [label=\"nullptr\", color=lightblue, fillcolor=lightblue];"
-         << endl;
-    file << "null2 [label=\"nullptr\", color=lightblue, fillcolor=lightblue];"
-         << endl;
-
-    file << "Head -> \"" << head << "\";" << endl;
-
-    Nodo* actual = head;
-    while (actual != nullptr) {
-      file << "\"" << actual << "\" [label=\"" << actual->data
-           << "\", color=lightblue, fillcolor=lightblue];" << endl;
-
-      if (actual->next != nullptr) {
-        file << "\"" << actual << "\" -> \"" << actual->next
-             << "\" [label=\"Next\", color=black];" << endl;
-      } else {
-        file << "\"" << actual << "\" -> null2 [label=\"Next\", color=black];"
-             << endl;
-      }
-
-      if (actual->prev != nullptr) {
-        file << "\"" << actual << "\" -> \"" << actual->prev
-             << "\" [constraint=false, label=\"Prev\", color=black];" << endl;
-      } else {
-        file << "\"" << actual << "\" -> null1 [label=\"Prev\", color=black];"
-             << endl;
-      }
-
-      actual = actual->next;
-    }
-
     file << "}" << endl;
-    file.close();
+    return file.str();
   }
+
+  file << "Head [label=\"Head\", color=lightblue, fillcolor=lightblue];"
+       << endl;
+  file << "null1 [label=\"nullptr\", color=lightblue, fillcolor=lightblue];"
+       << endl;
+  file << "null2 [label=\"nullptr\", color=lightblue, fillcolor=lightblue];"
+       << endl;
+
+  file << "Head -> \"" << head << "\";" << endl;
+
+  Nodo* actual = head;
+  while (actual != nullptr) {
+    file << "\"" << actual << "\" [label=\"" << actual->data
+         << "\", color=lightblue, fillcolor=lightblue];" << endl;
+
+    if (actual->next != nullptr) {
+      file << "\"" << actual << "\" -> \"" << actual->next
+           << "\" [label=\"Next\", color=black];" << endl;
+    } else {
+      file << "\"" << actual << "\" -> null2 [label=\"Next\", color=black];"
+           << endl;
+    }
+
+    if (actual->prev != nullptr) {
+      file << "\"" << actual << "\" -> \"" << actual->prev
+           << "\" [constraint=false, label=\"Prev\", color=black];" << endl;
+    } else {
+      file << "\"" << actual << "\" -> null1 [label=\"Prev\", color=black];"
+           << endl;
+    }
+
+    actual = actual->next;
+  }
+
+  file << "}" << endl;
+  return file.str();
 }

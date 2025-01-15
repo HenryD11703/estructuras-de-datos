@@ -141,9 +141,10 @@ class LinkedListServer {
   }
 
   void updateGraph(const Request& req, Response& res) {
-    ll.generateGraphviz();
+    string dot = ll.generateGraphviz();
     json response = {{"status", "success"},
-                     {"message", "Updated graph succesfully"}};
+                     {"message", "Updated graph succesfully"},
+                     {"dot", dot}};
     res.set_content(response.dump(), "application/json");
   }
 };

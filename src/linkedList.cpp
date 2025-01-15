@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -127,48 +128,45 @@ void linkedList::display() {
   cout << "nullptr" << endl;
 }
 
-void linkedList::generateGraphviz() {
-  ofstream file;
-  file.open("./utils/graphviz/linkedList.dot");
-  if (file.is_open()) {
-    file << "digraph g {" << endl;
-    file << "node [shape=box, style=filled, fontname=\"Helvetica\"];" << endl;
+string linkedList::generateGraphviz() {
+  stringstream file;
+  file << "digraph g {" << endl;
+  file << "node [shape=box, style=filled, fontname=\"Helvetica\"];" << endl;
 
-    // Head node
-    file << "Head [label=\"Head\", color=lightblue, fillcolor=lightblue];"
-         << endl;
+  // Head node
+  file << "Head [label=\"Head\", color=lightblue, fillcolor=lightblue];"
+       << endl;
 
-    Nodo* actual = head;
+  Nodo* actual = head;
 
-    if (head == nullptr) {
-      file << "\"Empty List\"" << endl;
-    } else {
-      file << "Head ->" << "\"" << actual << "\"" << endl;
+  if (head == nullptr) {
+    file << "\"Empty List\"" << endl;
+  } else {
+    file << "Head ->" << "\"" << actual << "\"" << endl;
 
-      // Generar nodos de la lista
-      int contador = 1;
-      while (actual != nullptr) {
-        file << "\"" << actual << "\"" << "[label=\"" << actual->data << "\\n"
-             << actual << "\", color=lightblue, fillcolor=lightblue];" << endl;
+    // Generar nodos de la lista
+    int contador = 1;
+    while (actual != nullptr) {
+      file << "\"" << actual << "\"" << "[label=\"" << actual->data << "\\n"
+           << actual << "\", color=lightblue, fillcolor=lightblue];" << endl;
 
-        if (actual->next != nullptr) {
-          file << "\"" << actual << "\"" << " -> " << "\"" << actual->next
-               << "\""
-               << "[label=\"Next\", color=black];" << endl;
-        } else {
-          file << "\"" << actual << "\"" << " -> nullptr "
-               << "[label=\"Next\", color=black];" << endl;
-        }
-
-        actual = actual->next;
-        contador++;
+      if (actual->next != nullptr) {
+        file << "\"" << actual << "\"" << " -> " << "\"" << actual->next << "\""
+             << "[label=\"Next\", color=black];" << endl;
+      } else {
+        file << "\"" << actual << "\"" << " -> nullptr "
+             << "[label=\"Next\", color=black];" << endl;
       }
+
+      actual = actual->next;
+      contador++;
     }
-    file << "rankdir=LR;" << endl;
-    file << "nodesep = 0.1;" << endl;
-    file << "}" << endl;
   }
-  file.close();
+  file << "rankdir=LR;" << endl;
+  file << "nodesep = 0.1;" << endl;
+  file << "}" << endl;
+
+  return file.str();
 }
 
 int linkedList::getLength() {

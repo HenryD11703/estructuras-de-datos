@@ -25,7 +25,7 @@ class linkedList {
   int deleteAtIndex(int index);
   int getLength();
   void display();
-  void generateGraphviz();
+  string generateGraphviz();
   int search(int id);
   int get(int index);
 };

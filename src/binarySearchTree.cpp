@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -96,28 +97,40 @@ binarySearchTree::Nodo* binarySearchTree::search(Nodo* node, int val) {
   }
 }
 
-void binarySearchTree::preorder() { preorder(root); }
-void binarySearchTree::preorder(Nodo* node) {
+string binarySearchTree::preorder() {
+  stringstream preorderString;
+  preorder(preorderString, root);
+  return preorderString.str();
+}
+string binarySearchTree::preorder(stringstream& text, Nodo* node) {
   if (node == nullptr) return;
-  cout << node->value << " ";
-  preorder(node->left);
-  preorder(node->right);
+  text << node->value << " ";
+  preorder(text, node->left);
+  preorder(text, node->right);
 }
 
-void binarySearchTree::inorder() { inorder(root); }
-void binarySearchTree::inorder(Nodo* node) {
+string binarySearchTree::inorder() {
+  stringstream inorderString;
+  inorder(inorderString, root);
+  return inorderString.str();
+}
+string binarySearchTree::inorder(stringstream& text, Nodo* node) {
   if (node == nullptr) return;
-  inorder(node->left);
-  cout << node->value << " ";
-  inorder(node->right);
+  inorder(text, node->left);
+  text << node->value << " ";
+  inorder(text, node->right);
 }
 
-void binarySearchTree::postorder() { postorder(root); }
-void binarySearchTree::postorder(Nodo* node) {
+string binarySearchTree::postorder() {
+  stringstream preorderString;
+  preorder(preorderString, root);
+  return preorderString.str();
+}
+string binarySearchTree::postorder(stringstream& text, Nodo* node) {
   if (node == nullptr) return;
-  postorder(node->left);
-  postorder(node->right);
-  cout << node->value << " ";
+  postorder(text, node->left);
+  postorder(text, node->right);
+  text << node->value << " ";
 }
 
 int binarySearchTree::findMax() {
@@ -134,20 +147,16 @@ int binarySearchTree::findMax(Nodo* node) {
 }
 
 void binarySearchTree::generateGraphviz() const {
-  ofstream file;
-  file.open("./utils/graphviz/binarySearchTree.dot");
-  if (file.is_open()) {
-    file << "digraph g {" << endl;
-    file << "node [shape=circle, style=filled, fontname=\"Helvetica\"];"
-         << endl;
-    generateGraphviz(file, root);
-    file << "rankdir=TB;" << endl;
-    file << "nodesep = 0.1" << endl;
-    file << "}" << endl;
-  }
-  file.close();
+  stringstream file;
+  file << "digraph g {" << endl;
+  file << "node [shape=circle, style=filled, fontname=\"Helvetica\"];" << endl;
+  generateGraphviz(file, root);
+  file << "rankdir=TB;" << endl;
+  file << "nodesep = 0.1" << endl;
+  file << "}" << endl;
 }
-void binarySearchTree::generateGraphviz(ofstream& file, Nodo* node) const {
+
+void binarySearchTree::generateGraphviz(stringstream& file, Nodo* node) const {
   if (node == nullptr) {
     return;
   }

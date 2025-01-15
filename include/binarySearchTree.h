@@ -2,6 +2,7 @@
 #define BINARY_SERACH_TREE_H
 
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -27,13 +28,13 @@ class binarySearchTree {
   Nodo* search(int val);
   Nodo* search(Nodo* node, int val);
   void generateGraphviz() const;
-  void generateGraphviz(ofstream& file, Nodo* node) const;
-  void preorder();
-  void preorder(Nodo* node);
-  void inorder();
-  void inorder(Nodo* node);
-  void postorder();
-  void postorder(Nodo* node);
+  void generateGraphviz(stringstream& file, Nodo* node) const;
+  string preorder();
+  string preorder(stringstream& text, Nodo* node);
+  string inorder();
+  string inorder(stringstream& text, Nodo* node);
+  string postorder();
+  string postorder(stringstream& text, Nodo* node);
   int findMax();
   int findMax(Nodo* node);
   void destroyTree(Nodo* node);
