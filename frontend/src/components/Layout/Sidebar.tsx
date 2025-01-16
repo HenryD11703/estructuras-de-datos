@@ -14,6 +14,7 @@ const Sidebar = ({ onSelectStructure }: SidebarProps) => {
     { name: 'Doubly Circular Linked List', icon: '🔄' },
     { name: 'Binary Search Tree (BST)', icon: '🌳' },
     { name: 'AVL Tree', icon: '🏗️' },
+    { name: 'Sparse Matrix', icon: '🌌' },
     { name: 'Red-Black Tree', icon: '🍁' },
     { name: 'B-Tree', icon: '🌴' },
   ];
