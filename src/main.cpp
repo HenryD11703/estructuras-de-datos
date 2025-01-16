@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "../lib/httplib.h"
+#include "AVLTreeEndpoints.cpp"
 #include "binarySearchTreeEndpoints.cpp"
 #include "doublyCircularListEndpoints.cpp"
 #include "doublyLinkedListEndpoints.cpp"
@@ -9,11 +10,25 @@
 using namespace httplib;
 using namespace std;
 
-void handleCORS(const Request& req, Response& res) {
-  res.set_header("Access-Control-Allow-Origin", "*");
-  res.set_header("Access-Control-Allow-Methods",
-                 "GET, POST, PUT, DELETE, OPTIONS");
-  res.set_header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+void setupCORS(Server& svr) {
+  svr.set_pre_routing_handler([](const Request& req, Response& res) {
+    // Permitir solicitudes desde cualquier origen
+    res.set_header("Access-Control-Allow-Origin", "*");
+
+    res.set_header("Access-Control-Allow-Methods",
+                   "GET, POST, DELETE, OPTIONS");
+
+    res.set_header("Access-Control-Allow-Headers",
+                   "Content-Type, Authorization");
+
+    res.set_header("Access-Control-Max-Age", "86400");
+
+    if (req.method == "OPTIONS") {
+      res.status = 204;
+      return Server::HandlerResponse::Handled;
+    }
+    return Server::HandlerResponse::Unhandled;
+  });
 }
 
 void linkedListRoutes(Server& svr, LinkedListServer& llServer) {
@@ -104,7 +119,6 @@ void doublyLinkedListRoutes(Server& svr, DoublyLinkedListServer& dllServer) {
 
   svr.Get("/doublyLinkedList/updateGraph",
           [&dllServer](const Request& req, Response& res) {
-            handleCORS(req, res);
             dllServer.updateGraph(req, res);
           });
 }
@@ -161,7 +175,7 @@ void doublyCircularListRoutes(Server& svr,
           });
 }
 
-void binarySearchTreeRoutes(Server& svr, BinarySearchTreeServer bstServer) {
+void binarySearchTreeRoutes(Server& svr, BinarySearchTreeServer& bstServer) {
   svr.Post("/binarySearchTree/insert",
            [&bstServer](const Request& req, Response& res) {
              bstServer.handleInsert(req, res);
@@ -190,20 +204,50 @@ void binarySearchTreeRoutes(Server& svr, BinarySearchTreeServer bstServer) {
           });
 }
 
+void AVLTreeRoutes(Server& svr, AVLTreeServer& avlServer) {
+  svr.Post("/avlTree/insert", [&avlServer](const Request& req, Response& res) {
+    avlServer.handleInsert(req, res);
+  });
+
+  svr.Delete("/avlTree/delete",
+             [&avlServer](const Request& req, Response& res) {
+               avlServer.handleDelete(req, res);
+             });
+
+  svr.Get("/avlTree/getGraphviz",
+          [&avlServer](const Request& req, Response& res) {
+            avlServer.handleGenerateGraphviz(req, res);
+          });
+  svr.Get("/avlTree/Preorder", [&avlServer](const Request& req, Response& res) {
+    avlServer.handlePreorder(req, res);
+  });
+  svr.Get("/avlTree/Inorder", [&avlServer](const Request& req, Response& res) {
+    avlServer.handleInorder(req, res);
+  });
+  svr.Get("/avlTree/Postorder",
+          [&avlServer](const Request& req, Response& res) {
+            avlServer.handlePostorder(req, res);
+          });
+}
+
 int main() {
   LinkedListServer llServer;
   DoublyLinkedListServer dllServer;
   DoublyCircularListServer dclServer;
   BinarySearchTreeServer bstServer;
+  AVLTreeServer avlServer;
 
   httplib::Server svr;
+
+  setupCORS(svr);
 
   linkedListRoutes(svr, llServer);
   doublyLinkedListRoutes(svr, dllServer);
   doublyCircularListRoutes(svr, dclServer);
   binarySearchTreeRoutes(svr, bstServer);
+  AVLTreeRoutes(svr, avlServer);
 
-  std::cout << "Servidor corriendo en http://localhost:8080" << std::endl;
+  cout << "Servidor corriendo en http://localhost:8080" << endl;
   svr.listen("0.0.0.0", 8080);
 
   return 0;

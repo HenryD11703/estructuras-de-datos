@@ -102,7 +102,7 @@ string binarySearchTree::preorder() {
   preorder(preorderString, root);
   return preorderString.str();
 }
-string binarySearchTree::preorder(stringstream& text, Nodo* node) {
+void binarySearchTree::preorder(stringstream& text, Nodo* node) {
   if (node == nullptr) return;
   text << node->value << " ";
   preorder(text, node->left);
@@ -114,7 +114,7 @@ string binarySearchTree::inorder() {
   inorder(inorderString, root);
   return inorderString.str();
 }
-string binarySearchTree::inorder(stringstream& text, Nodo* node) {
+void binarySearchTree::inorder(stringstream& text, Nodo* node) {
   if (node == nullptr) return;
   inorder(text, node->left);
   text << node->value << " ";
@@ -126,7 +126,7 @@ string binarySearchTree::postorder() {
   preorder(preorderString, root);
   return preorderString.str();
 }
-string binarySearchTree::postorder(stringstream& text, Nodo* node) {
+void binarySearchTree::postorder(stringstream& text, Nodo* node) {
   if (node == nullptr) return;
   postorder(text, node->left);
   postorder(text, node->right);

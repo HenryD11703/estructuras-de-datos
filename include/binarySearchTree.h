@@ -30,11 +30,11 @@ class binarySearchTree {
   string generateGraphviz() const;
   void generateGraphviz(stringstream& file, Nodo* node) const;
   string preorder();
-  string preorder(stringstream& text, Nodo* node);
+  void preorder(stringstream& text, Nodo* node);
   string inorder();
-  string inorder(stringstream& text, Nodo* node);
+  void inorder(stringstream& text, Nodo* node);
   string postorder();
-  string postorder(stringstream& text, Nodo* node);
+  void postorder(stringstream& text, Nodo* node);
   int findMax();
   int findMax(Nodo* node);
   void destroyTree(Nodo* node);

@@ -1,0 +1,80 @@
+.LinkedListForm {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #1e2a47;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.Header {
+  border-bottom: 2px solid #4b6e89;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+}
+
+.Title {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.Content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.Section {
+  border: 1px solid #4b6e89;
+  border-radius: 8px;
+  padding: 15px;
+  background-color: #2b3a5e;
+}
+
+.SectionTitle {
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin-bottom: 15px;
+  color: #62b6b4;
+}
+
+.FormGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #4b6e89;
+  background-color: #1e2a47;
+  color: white;
+}
+
+input::placeholder {
+  color: #6c7a92;
+}
+
+.Button {
+  padding: 10px 15px;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #62b6b4;
+  color: #1e2a47;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+}
+
+.Button:hover {
+  background-color: #4a8f8d;
+  transform: scale(1.05);
+}

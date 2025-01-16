@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -155,21 +156,55 @@ int avlTree::getHeight(Nodo* nodo) {
   return max(leftH, rightH) + 1;
 }
 
-void avlTree::generateGraphviz() const {
-  ofstream file;
-  file.open("./utils/graphviz/avlTree.dot");
-  if (file.is_open()) {
-    file << "digraph g {" << endl;
-    file << "node [shape=circle, style=filled, fontname=\"Helvetica\"];"
-         << endl;
-    generateGraphviz(file, root);
-    file << "rankdir=TB;" << endl;
-    file << "nodesep = 0.1" << endl;
-    file << "}" << endl;
-  }
-  file.close();
+string avlTree::preorder() {
+  stringstream preorderString;
+  preorder(preorderString, root);
+  return preorderString.str();
 }
-void avlTree::generateGraphviz(ofstream& file, Nodo* node) const {
+void avlTree::preorder(stringstream& text, Nodo* node) {
+  if (node == nullptr) return;
+  text << node->value << " ";
+  preorder(text, node->left);
+  preorder(text, node->right);
+}
+
+string avlTree::inorder() {
+  stringstream inorderString;
+  inorder(inorderString, root);
+  return inorderString.str();
+}
+void avlTree::inorder(stringstream& text, Nodo* node) {
+  if (node == nullptr) return;
+  inorder(text, node->left);
+  text << node->value << " ";
+  inorder(text, node->right);
+}
+
+string avlTree::postorder() {
+  stringstream preorderString;
+  preorder(preorderString, root);
+  return preorderString.str();
+}
+void avlTree::postorder(stringstream& text, Nodo* node) {
+  if (node == nullptr) return;
+  postorder(text, node->left);
+  postorder(text, node->right);
+  text << node->value << " ";
+}
+
+string avlTree::generateGraphviz() const {
+  stringstream file;
+  file << "digraph g {" << endl;
+  file << "node [shape=circle, style=filled, fontname=\"Helvetica\"];" << endl;
+  generateGraphviz(file, root);
+  file << "rankdir=TB;" << endl;
+  file << "nodesep = 0.1" << endl;
+  file << "}" << endl;
+
+  return file.str();
+}
+
+void avlTree::generateGraphviz(stringstream& file, Nodo* node) const {
   if (node == nullptr) {
     return;
   }
@@ -187,28 +222,4 @@ void avlTree::generateGraphviz(ofstream& file, Nodo* node) const {
          << "[label=\"R\", color=black]" << endl;
     generateGraphviz(file, node->right);
   }
-}
-
-void avlTree::preorder() { preorder(root); }
-void avlTree::preorder(Nodo* node) {
-  if (node == nullptr) return;
-  cout << node->value << " ";
-  preorder(node->left);
-  preorder(node->right);
-}
-
-void avlTree::inorder() { inorder(root); }
-void avlTree::inorder(Nodo* node) {
-  if (node == nullptr) return;
-  inorder(node->left);
-  cout << node->value << " ";
-  inorder(node->right);
-}
-
-void avlTree::postorder() { postorder(root); }
-void avlTree::postorder(Nodo* node) {
-  if (node == nullptr) return;
-  postorder(node->left);
-  postorder(node->right);
-  cout << node->value << " ";
 }

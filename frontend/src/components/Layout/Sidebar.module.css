@@ -1,0 +1,114 @@
+.Sidebar {
+  width: 300px;
+  height: auto;
+  background-color: #1e2a47;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  transition: width 0.3s ease;
+}
+
+.Collapsed {
+  width: auto;
+  padding: 20px 10px;
+}
+
+.Header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #4b6e89;
+  padding-bottom: 10px;
+}
+
+.HeaderIcon {
+  font-size: 2rem;
+  margin-right: 10px;
+  min-width: 32px;
+}
+
+.Title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.ToggleButton {
+  position: absolute;
+  right: -15px;
+  top: 20px;
+  width: 30px;
+  height: 30px;
+  background-color: #62b6b4;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #1e2a47;
+  transition: background-color 0.3s ease;
+  z-index: 1;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  padding: 0;
+  overflow: visible;
+}
+
+.ToggleButton svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ToggleButton:hover {
+  background-color: #4a8f8d;
+}
+
+.StructureList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.Item {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  border-radius: 8px;
+  margin: 5px 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  white-space: nowrap;
+}
+
+.Item:hover {
+  background-color: #3e4a66;
+  transform: scale(1.05);
+}
+
+.Active {
+  background-color: #62b6b4;
+  color: #1e2a47;
+}
+
+.Icon {
+  font-size: 1.5rem;
+  margin-right: 10px;
+  min-width: 24px;
+}

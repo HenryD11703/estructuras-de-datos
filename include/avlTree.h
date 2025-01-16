@@ -29,14 +29,14 @@ class avlTree {
   Nodo* rrRotation(Nodo* nodo);
   Nodo* lrRotation(Nodo* nodo);
   Nodo* rlRotation(Nodo* nodo);
-  void generateGraphviz() const;
-  void generateGraphviz(ofstream& file, Nodo* node) const;
-  void preorder();
-  void preorder(Nodo* node);
-  void inorder();
-  void inorder(Nodo* node);
-  void postorder();
-  void postorder(Nodo* node);
+  string generateGraphviz() const;
+  void generateGraphviz(stringstream& file, Nodo* node) const;
+  string preorder();
+  void preorder(stringstream& text, Nodo* node);
+  string inorder();
+  void inorder(stringstream& text, Nodo* node);
+  string postorder();
+  void postorder(stringstream& text, Nodo* node);
 };
 
 #endif
