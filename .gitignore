@@ -1,0 +1,8 @@
+.clang-format
+/.vscode
+build/
+bin/
+*.o
+*.out
+*.log
+
