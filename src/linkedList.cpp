@@ -147,14 +147,17 @@ string linkedList::generateGraphviz() {
     // Generar nodos de la lista
     int contador = 1;
     while (actual != nullptr) {
-      file << "\"" << actual << "\"" << "[label=\"" << actual->data << "\\n"
-           << actual << "\", color=lightblue, fillcolor=lightblue];" << endl;
+      file << "\"" << actual << "\""
+           << "[label=\"" << actual->data
+           << "\", color=lightblue, fillcolor=lightblue, width=0.5, "
+              "height=0.5, fixedsize=true];"
+           << endl;
 
       if (actual->next != nullptr) {
-        file << "\"" << actual << "\"" << " -> " << "\"" << actual->next << "\""
+        file << "\"" << actual << "\" -> " << "\"" << actual->next << "\""
              << "[label=\"Next\", color=black];" << endl;
       } else {
-        file << "\"" << actual << "\"" << " -> nullptr "
+        file << "\"" << actual << "\" -> nullptr "
              << "[label=\"Next\", color=black];" << endl;
       }
 
@@ -162,8 +165,9 @@ string linkedList::generateGraphviz() {
       contador++;
     }
   }
-  file << "rankdir=LR;" << endl;
-  file << "nodesep = 0.1;" << endl;
+  file << "rankdir=LR;" << endl;   // Mantener horizontal
+  file << "nodesep=0.2;" << endl;  // Separación de nodos
+  file << "ranksep=0.5;" << endl;  // Separación entre filas
   file << "}" << endl;
 
   return file.str();

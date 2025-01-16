@@ -131,10 +131,19 @@ class DoublyCircularListServer {
   }
 
   void updateGraph(const Request& req, Response& res) {
-    dcl.generateGraphviz();
-    json response = {{"status", "success"},
-                     {"message", "Graphviz generado correctamente"}};
-    res.set_content(response.dump(), "application/json");
+    try {
+      string dot = dcl.generateGraphviz();
+      json response = {{"status", "success"},
+                       {"message", "Updated graph successfully"},
+                       {"dot", dot}};
+      res.set_content(response.dump(), "application/json");
+    } catch (const std::exception& e) {
+      json error = {{"status", "error"},
+                    {"message", "Error procesando la solicitud"},
+                    {"exception", e.what()}};
+      res.set_content(error.dump(), "application/json");
+      res.status = 500;
+    }
   }
 
   void handleGetLength(const Request& req, Response& res) {
