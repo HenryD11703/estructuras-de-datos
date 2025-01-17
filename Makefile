@@ -1,7 +1,7 @@
 # Definir compilador y flags
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Iinclude -g
-LDFLAGS =
+CXXFLAGS = -std=c++17 -Iinclude -g  
+LDFLAGS = -pthread
 
 # Directorios
 SRC_DIR = src
@@ -16,7 +16,7 @@ OBJECTS = $(SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 EXECUTABLE = $(BIN_DIR)/program
 
 # Reglas
-all: $(EXECUTABLE)
+all: directories $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
 	$(CXX) $(OBJECTS) -o $(EXECUTABLE) $(LDFLAGS)
@@ -24,16 +24,17 @@ $(EXECUTABLE): $(OBJECTS)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Limpiar los archivos generados
-clean:
-	rm -rf $(OBJ_DIR)/*.o $(EXECUTABLE)
+# Crear los directorios necesarios
+directories: $(OBJ_DIR) $(BIN_DIR)
 
-# Crear los directorios necesarios si no existen
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
-# Regla para generar los directorios y luego compilar
-.PHONY: all clean
+# Limpiar los archivos generados
+clean:
+	rm -rf $(OBJ_DIR)/*.o $(EXECUTABLE)
+
+.PHONY: all clean directories

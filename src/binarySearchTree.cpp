@@ -95,6 +95,7 @@ binarySearchTree::Nodo* binarySearchTree::search(Nodo* node, int val) {
   } else if (val < node->value) {
     return search(node->left, val);
   }
+  return node;
 }
 
 string binarySearchTree::preorder() {

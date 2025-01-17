@@ -160,6 +160,7 @@ int doublyLinkedList::search(int id) {
     position++;
     actual = actual->next;
   }
+  return -1;
 }
 
 int doublyLinkedList::get(int index) {

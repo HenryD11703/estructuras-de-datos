@@ -1,0 +1,13 @@
+{
+    "editor.formatOnSave": true, // Formatea al guardar
+    "editor.defaultFormatter": "esbenp.prettier-vscode", // Usa Prettier como formateador
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact"
+    ],
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "always"
+    }
+}
