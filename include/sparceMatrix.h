@@ -25,12 +25,20 @@ class sparseMatrix {
           derecha(nullptr) {}
   };
 
+  // Lista simplemente enlazadad
+  struct HeaderNode {
+    int pos;
+    HeaderNode* sig;
+    Nodo* dato;  // apunta al primer elemento que tenga ya sea fila o columna
+    HeaderNode(int position) : pos(position), sig(nullptr), dato(nullptr) {}
+  };
+
   Nodo* head;
 
  public:
   sparseMatrix();
   ~sparseMatrix();
-  int insertColor();
+  int insertColor(string color, int x, int y);
 };
 
 #endif
