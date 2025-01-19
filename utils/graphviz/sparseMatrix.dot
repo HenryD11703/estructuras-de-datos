@@ -1,0 +1,21 @@
+digraph a {
+    node [fontname = "Helvetica,Arial,sans-serif";];
+    a0 [shape = none;label = <
+        <table border = "0" cellspacing="10"> 
+        <tr>
+        <td bgcolor="#ebcb8b"></td>
+        <td bgcolor="#a7adb6"></td>
+        <td bgcolor="#7eb78a"></td>
+        </tr>
+        <tr>
+        <td bgcolor="white"></td>
+        <td bgcolor="#bf616a"></td>
+        <td bgcolor="white"></td>
+        </tr>
+        <tr>
+        <td bgcolor="white"></td>
+        <td bgcolor="white"></td>
+        <td bgcolor="#8fbcbb"></td>
+        </tr>
+        </table> >;];
+}

@@ -2,8 +2,10 @@
 #define SPARSE_MATRIX_H
 
 #include <iostream>
+#include "../lib/json.hpp"
 
 using namespace std;
+using json = nlohmann::json;
 
 class sparseMatrix {
  private:
@@ -25,7 +27,7 @@ class sparseMatrix {
           derecha(nullptr) {}
   };
 
-  // Lista simplemente enlazadad
+  // Lista simplemente enlazada
   struct HeaderNode {
     int pos;
     HeaderNode* sig;
@@ -34,11 +36,21 @@ class sparseMatrix {
   };
 
   Nodo* head;
+  HeaderNode* headerNodeX;
+  HeaderNode* headerNodeY;
+  json jsonFile;
 
  public:
   sparseMatrix();
   ~sparseMatrix();
   int insertColor(string color, int x, int y);
+  HeaderNode* insertHeader(int pos, bool isRow);
+  int findMax(HeaderNode* header);
+  string generateGraph();
+  json toJson() const;
+  int deleteColor(int x, int y);
+  void insertJson(json text);
+  void clearMatrix();
 };
 
 #endif

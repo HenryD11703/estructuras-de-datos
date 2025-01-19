@@ -6,6 +6,7 @@
 #include "doublyCircularListEndpoints.cpp"
 #include "doublyLinkedListEndpoints.cpp"
 #include "linkedListEndpoints.cpp"
+#include "sparseMatrixEndpoints.cpp"
 
 using namespace httplib;
 using namespace std;
@@ -230,12 +231,40 @@ void AVLTreeRoutes(Server& svr, AVLTreeServer& avlServer) {
           });
 }
 
+void sparseMatrixRoutes(Server& svr, SparseMatrixServer& mtxServer) {
+  svr.Post("/sparseMatrix/insert",
+           [&mtxServer](const Request& req, Response& res) {
+             mtxServer.handleInsert(req, res);
+           });
+
+  svr.Post("/sparseMatrix/loadJSON",
+           [&mtxServer](const Request& req, Response& res) {
+             mtxServer.handleInsertJson(req, res);
+           });
+
+  svr.Delete("/sparseMatrix/delete",
+             [&mtxServer](const Request& req, Response& res) {
+               mtxServer.handleDelete(req, res);
+             });
+
+  svr.Get("/sparseMatrix/getJSON",
+          [&mtxServer](const Request& req, Response& res) {
+            mtxServer.handleToJson(req, res);
+          });
+
+  svr.Get("/sparseMatrix/clean",
+          [&mtxServer](const Request& req, Response& res) {
+            mtxServer.handleClean(req, res);
+          });
+}
+
 int main() {
   LinkedListServer llServer;
   DoublyLinkedListServer dllServer;
   DoublyCircularListServer dclServer;
   BinarySearchTreeServer bstServer;
   AVLTreeServer avlServer;
+  SparseMatrixServer mtxServer;
 
   httplib::Server svr;
 
@@ -246,6 +275,7 @@ int main() {
   doublyCircularListRoutes(svr, dclServer);
   binarySearchTreeRoutes(svr, bstServer);
   AVLTreeRoutes(svr, avlServer);
+  sparseMatrixRoutes(svr, mtxServer);
 
   cout << "Servidor corriendo en http://localhost:8080" << endl;
   svr.listen("0.0.0.0", 8080);
