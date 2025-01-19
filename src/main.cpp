@@ -1,12 +1,12 @@
 #include <iostream>
 
 #include "../lib/httplib.h"
-#include "AVLTreeEndpoints.cpp"
-#include "binarySearchTreeEndpoints.cpp"
-#include "doublyCircularListEndpoints.cpp"
-#include "doublyLinkedListEndpoints.cpp"
-#include "linkedListEndpoints.cpp"
-#include "sparseMatrixEndpoints.cpp"
+#include "./server/AVLTreeEndpoints.cpp"
+#include "./server/binarySearchTreeEndpoints.cpp"
+#include "./server/doublyCircularListEndpoints.cpp"
+#include "./server/doublyLinkedListEndpoints.cpp"
+#include "./server/linkedListEndpoints.cpp"
+#include "./server/sparseMatrixEndpoints.cpp"
 
 using namespace httplib;
 using namespace std;
