@@ -8,21 +8,36 @@ using namespace std;
 
 class RedBlackTree {
  private:
-  struct Nodo {
+  enum Color { RED, BLACK };
+  struct Node {
     int valor;
-    Nodo* izquierdo;
-    Nodo* derecho;
-    string color;
-    Nodo(int val, string color)
-        : valor(val), izquierdo(nullptr), derecho(nullptr) {}
+    Node* left;
+    Node* right;
+    Node* padre;
+    Color color;
+    Node(int val, Color color)
+        : valor(val),
+          left(nullptr),
+          right(nullptr),
+          padre(nullptr),
+          color(color) {}
   };
-  Nodo* root;
+  Node* root;
 
  public:
   RedBlackTree();
   ~RedBlackTree();
   void insert(int val);
-  Nodo* insert(Nodo* node, int val);
+  Node* insert(Node* node, Node* newNode);
+  void fixViolation(Node* node);
+  void rotateLeft(Node* node);
+  void rotateRight(Node* node);
+  Node* getUncle(Node* node);
+  string generateGraphviz() const;
+  void generateGraphviz(stringstream& file, Node* node) const;
+  string colorToString(Color color) const;
+  void printTree(Node* node, int indent) const;
+  void printTree() const;
 };
 
 #endif
