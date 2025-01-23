@@ -28,6 +28,8 @@ class RedBlackTree {
   RedBlackTree();
   ~RedBlackTree();
   void destroyTree(Node* node);
+  void deleteNode(int val);
+  Node* deleteNode(Node* node, int val);
   void insert(int val);
   Node* insert(Node* node, Node* newNode);
   void fixViolation(Node* node);

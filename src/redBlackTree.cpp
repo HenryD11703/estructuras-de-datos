@@ -39,6 +39,47 @@ RedBlackTree::Node* RedBlackTree::insert(Node* node, Node* newNode) {
   return node;
 }
 
+void RedBlackTree::deleteNode(int val) { root = deleteNode(root, val); }
+
+RedBlackTree::Node* RedBlackTree::deleteNode(Node* node, int val) {
+  if (node == nullptr) {
+    return node;
+  }
+
+  if (val < node->valor) {
+    node->left = deleteNode(node->left, val);
+  } else if (val > node->valor) {
+    node->right = deleteNode(node->right, val);
+  } else {
+    if (node->left == nullptr || node->right == nullptr) {
+      Node* temp = node->left ? node->left : node->right;
+
+      if (temp == nullptr) {
+        temp = node;
+        node = nullptr;
+      } else {
+        *node = *temp;
+      }
+      delete temp;
+    } else {
+      Node* temp = node->right;
+
+      while (temp->left != nullptr) {
+        temp = temp->left;
+      }
+
+      node->valor = temp->valor;
+      node->right = deleteNode(node->right, temp->valor);
+    }
+  }
+
+  if (node == nullptr) {
+    return node;
+  }
+
+  return node;
+}
+
 void RedBlackTree::fixViolation(Node* node) {
   Node* padre = nullptr;
   Node* abuelo = nullptr;

@@ -6,6 +6,7 @@
 #include "./server/doublyCircularListEndpoints.cpp"
 #include "./server/doublyLinkedListEndpoints.cpp"
 #include "./server/linkedListEndpoints.cpp"
+#include "./server/redBlackTreeEndpoints.cpp"
 #include "./server/sparseMatrixEndpoints.cpp"
 
 using namespace httplib;
@@ -258,6 +259,23 @@ void sparseMatrixRoutes(Server& svr, SparseMatrixServer& mtxServer) {
           });
 }
 
+void redBlackTreeRoutes(Server& svr, RedBlackTreeServer& rbtServer) {
+  svr.Post("/redBlackTree/insert",
+           [&rbtServer](const Request& req, Response& res) {
+             rbtServer.handleInsert(req, res);
+           });
+
+  svr.Delete("/redBlackTree/delete",
+             [&rbtServer](const Request& req, Response& res) {
+               rbtServer.handleDelete(req, res);
+             });
+
+  svr.Get("/redBlackTree/getGraphviz",
+          [&rbtServer](const Request& req, Response& res) {
+            rbtServer.handleGraphviz(req, res);
+          });
+}
+
 int main() {
   LinkedListServer llServer;
   DoublyLinkedListServer dllServer;
@@ -265,6 +283,7 @@ int main() {
   BinarySearchTreeServer bstServer;
   AVLTreeServer avlServer;
   SparseMatrixServer mtxServer;
+  RedBlackTreeServer rbtServer;
 
   httplib::Server svr;
 
@@ -276,6 +295,7 @@ int main() {
   binarySearchTreeRoutes(svr, bstServer);
   AVLTreeRoutes(svr, avlServer);
   sparseMatrixRoutes(svr, mtxServer);
+  redBlackTreeRoutes(svr, rbtServer);
 
   cout << "Servidor corriendo en http://localhost:8080" << endl;
   svr.listen("0.0.0.0", 8080);
