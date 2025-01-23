@@ -1,4 +1,5 @@
 #include "../include/redBlackTree.h"
+
 #include <iostream>
 #include <sstream>
 
@@ -6,8 +7,14 @@ using namespace std;
 
 RedBlackTree::RedBlackTree() : root(nullptr) {}
 
-RedBlackTree::~RedBlackTree() {
-  // Implementar la liberación de memoria si es necesario
+RedBlackTree::~RedBlackTree() { destroyTree(root); }
+
+void RedBlackTree::destroyTree(Node* node) {
+  if (node != nullptr) {
+    destroyTree(node->left);
+    destroyTree(node->right);
+    delete node;
+  }
 }
 
 void RedBlackTree::insert(int val) {
@@ -52,14 +59,16 @@ void RedBlackTree::fixViolation(Node* node) {
         tio->color = BLACK;
         node = abuelo;
       } else {
-        // Caso 1.2: El nodo es el hijo derecho del padre, se necesita una rotación a la izquierda
+        // Caso 1.2: El nodo es el hijo derecho del padre, se necesita una
+        // rotación a la izquierda
         if (node == padre->right) {
           rotateLeft(padre);
           node = padre;
           padre = node->padre;
         }
 
-        // Caso 1.3: El nodo es el hijo izquierdo del padre, se necesita una rotación a la derecha
+        // Caso 1.3: El nodo es el hijo izquierdo del padre, se necesita una
+        // rotación a la derecha
         rotateRight(abuelo);
         swap(padre->color, abuelo->color);
         node = padre;
@@ -75,14 +84,16 @@ void RedBlackTree::fixViolation(Node* node) {
         tio->color = BLACK;
         node = abuelo;
       } else {
-        // Caso 2.2: El nodo es el hijo izquierdo del padre, se necesita una rotación a la derecha
+        // Caso 2.2: El nodo es el hijo izquierdo del padre, se necesita una
+        // rotación a la derecha
         if (node == padre->left) {
           rotateRight(padre);
           node = padre;
           padre = node->padre;
         }
 
-        // Caso 2.3: El nodo es el hijo derecho del padre, se necesita una rotación a la izquierda
+        // Caso 2.3: El nodo es el hijo derecho del padre, se necesita una
+        // rotación a la izquierda
         rotateLeft(abuelo);
         swap(padre->color, abuelo->color);
         node = padre;
@@ -169,9 +180,7 @@ void RedBlackTree::printTree(Node* node, int indent) const {
   printTree(node->left, indent + 4);
 }
 
-void RedBlackTree::printTree() const {
-  printTree(root, 0);
-}
+void RedBlackTree::printTree() const { printTree(root, 0); }
 string RedBlackTree::generateGraphviz() const {
   stringstream file;
   file << "digraph g {" << endl;

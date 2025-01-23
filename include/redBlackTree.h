@@ -27,6 +27,7 @@ class RedBlackTree {
  public:
   RedBlackTree();
   ~RedBlackTree();
+  void destroyTree(Node* node);
   void insert(int val);
   Node* insert(Node* node, Node* newNode);
   void fixViolation(Node* node);
