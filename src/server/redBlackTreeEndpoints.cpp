@@ -50,10 +50,12 @@ class RedBlackTreeServer {
   }
   void handleGraphviz(const Request& req, Response& res) {
     try {
+      cout << "Generando Graphviz" << endl;
       string graphviz = rbt.generateGraphviz();
       json response = {{"status", "success"},
                        {"message", "Graphviz generado correctamente"},
                        {"graphviz", graphviz}};
+      res.set_content(response.dump(), "application/json");
     } catch (const exception& e) {
       json error = {{"status", "error"},
                     {"message", "Error procesando la solicitud"},
