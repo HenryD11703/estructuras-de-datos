@@ -1,6 +1,12 @@
 import GraphvizComponent from '../utils/Graphviz';
 import { useState, useEffect, useCallback } from 'react';
 import styles from './BinarySearchTree.module.css';
+import {
+  fetchTraversals,
+  fetchGraphviz,
+  insertNode,
+  deleteNode,
+} from '../scripts/binarySearchTreeService';
 
 const BinarySearchTree = () => {
   const [bstInput, setBstInput] = useState<string>();
@@ -11,60 +17,23 @@ const BinarySearchTree = () => {
     postorder: '',
   });
 
-  const fetchTraversals = async () => {
-    try {
-      const [preorderRes, inorderRes, postorderRes] = await Promise.all([
-        fetch('http://192.168.1.113:8080/binarySearchTree/Preorder'),
-        fetch('http://192.168.1.113:8080/binarySearchTree/Inorder'),
-        fetch('http://192.168.1.113:8080/binarySearchTree/Postorder'),
-      ]);
-
-      const [preorderData, inorderData, postorderData] = await Promise.all([
-        preorderRes.json(),
-        inorderRes.json(),
-        postorderRes.json(),
-      ]);
-
-      setTraversals({
-        preorder: preorderData.preorden || '',
-        inorder: inorderData.inorder || '',
-        postorder: postorderData.postorder || '',
-      });
-    } catch (error) {
-      console.error('Error al obtener los recorridos:', error);
-    }
-  };
-
-  const fetchGraphviz = async () => {
-    try {
-      const response = await fetch(
-        'http://192.168.1.113:8080/binarySearchTree/getGraphviz'
-      );
-      const data = await response.json();
-      if (data.status === 'success') {
-        setBstInput(data.graph);
-      } else {
-        console.error('Error al obtener Graphviz:', data.message);
-      }
-    } catch (error) {
-      console.error('Error en la solicitud:', error);
-    }
-  };
-
   const updateTreeData = useCallback(async () => {
-    await Promise.all([fetchGraphviz(), fetchTraversals()]);
+    try {
+      const [graphvizData, traversalsData] = await Promise.all([
+        fetchGraphviz(),
+        fetchTraversals(),
+      ]);
+      setBstInput(graphvizData);
+      setTraversals(traversalsData);
+    } catch (error) {
+      console.error('Error updating tree data:', error);
+    }
   }, []);
 
   const handleInsert = async () => {
     if (typeof nodeValue === 'number') {
       try {
-        await fetch('http://192.168.1.113:8080/binarySearchTree/insert', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ value: nodeValue }),
-        });
+        await insertNode(nodeValue);
         await updateTreeData();
       } catch (error) {
         console.error('Error al insertar el nodo:', error);
@@ -76,13 +45,7 @@ const BinarySearchTree = () => {
   const handleDelete = async () => {
     if (typeof nodeValue === 'number') {
       try {
-        await fetch('http://192.168.1.113:8080/binarySearchTree/delete', {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ value: nodeValue }),
-        });
+        await deleteNode(nodeValue);
         await updateTreeData();
       } catch (error) {
         console.error('Error al eliminar el nodo:', error);

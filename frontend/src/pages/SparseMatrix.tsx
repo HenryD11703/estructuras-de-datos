@@ -1,5 +1,13 @@
 import { useState, useEffect } from 'react';
 import styles from './SparseMatrix.module.css';
+import {
+  fetchInitialData,
+  insertColor,
+  deleteColor,
+  cleanMatrix,
+  exportJSON,
+  importJSON,
+} from '../scripts/sparseMatrixService';
 
 const SparseMatrix = () => {
   const [selectedColor, setSelectedColor] = useState('#000000');
@@ -7,88 +15,61 @@ const SparseMatrix = () => {
 
   // Cargar datos iniciales del backend
   useEffect(() => {
-    fetchInitialData();
+    const loadInitialData = async () => {
+      try {
+        const data = await fetchInitialData();
+        const newMatrix: { [key: string]: string } = {};
+        data.forEach((item: { row: number; column: number; color: string }) => {
+          newMatrix[`${item.row},${item.column}`] = item.color;
+        });
+        setMatrix(newMatrix);
+      } catch (error) {
+        console.error('Error al cargar datos iniciales:', error);
+      }
+    };
+
+    loadInitialData();
   }, []);
 
-  const fetchInitialData = async () => {
-    try {
-      const response = await fetch(
-        'http://192.168.1.113:8080/sparseMatrix/clean'
-      );
-      const data = await response.json();
-      if (data.status === 'success' && data.matrix) {
-        // Convertir el array de objetos a nuestro formato de estado
-        const newMatrix: { [key: string]: string } = {};
-        data.matrix.forEach(
-          (item: { row: number; column: number; color: string }) => {
-            newMatrix[`${item.row},${item.column}`] = item.color;
-          }
-        );
-        setMatrix(newMatrix);
-      }
-    } catch (error) {
-      console.error('Error al cargar datos iniciales:', error);
-    }
-  };
-
   const handleCellClick = async (row: number, col: number) => {
-    // Solo enviar si el color no es blanco
     if (selectedColor !== '#ffffff') {
       try {
-        const response = await fetch(
-          'http://192.168.1.113:8080/sparseMatrix/insert',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              color: selectedColor,
-              column: col + 1,
-              row: row + 1,
-            }),
-          }
-        );
-
-        const data = await response.json();
-        if (data.status === 'success') {
+        const response = await insertColor(row, col, selectedColor);
+        if (response.status === 'success') {
           setMatrix((prevMatrix) => ({
             ...prevMatrix,
             [`${row},${col}`]: selectedColor,
           }));
+        } else {
+          console.error('Error al insertar color:', response.message);
         }
       } catch (error) {
-        console.error('Error al insertar color:', error);
+        console.error('Error en la solicitud:', error);
       }
     } else {
-      // Si es blanco, eliminar la celda
       try {
-        await fetch('http://192.168.1.113:8080/sparseMatrix/delete', {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            column: col,
-            row: row,
-          }),
-        });
-
-        const newMatrix = { ...matrix };
-        delete newMatrix[`${row},${col}`];
-        setMatrix(newMatrix);
+        const response = await deleteColor(row, col);
+        if (response.status === 'success') {
+          const newMatrix = { ...matrix };
+          delete newMatrix[`${row},${col}`];
+          setMatrix(newMatrix);
+        } else {
+          console.error('Error al eliminar color:', response.message);
+        }
       } catch (error) {
-        console.error('Error al eliminar color:', error);
+        console.error('Error en la solicitud:', error);
       }
     }
   };
 
   const handleClean = async () => {
     try {
-      await fetch('http://192.168.1.113:8080/sparseMatrix/clean', {
-        method: 'GET',
-      });
-      setMatrix({}); // Limpiar el estado local
+      const response = await cleanMatrix();
+      if (response.status === 'success') {
+        setMatrix({}); // Limpiar la matriz en el estado local
+      } else {
+        console.error('Error al limpiar la matriz:', response.message);
+      }
     } catch (error) {
       console.error('Error al limpiar la matriz:', error);
     }
@@ -96,24 +77,17 @@ const SparseMatrix = () => {
 
   const handleExportJSON = async () => {
     try {
-      const response = await fetch(
-        'http://192.168.1.113:8080/sparseMatrix/getJSON'
-      );
-      const data = await response.json();
-      if (data.status === 'success') {
-        // Eliminamos los campos 'status' y 'message'
-        const { status, message, ...matrixData } = data;
-
-        const blob = new Blob([JSON.stringify(matrixData, null, 2)], {
-          type: 'application/json',
-        });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'sparse-matrix.json';
-        a.click();
-        window.URL.revokeObjectURL(url);
-      }
+      const data = await exportJSON();
+      const { status, message, ...matrixData } = data;
+      const blob = new Blob([JSON.stringify(matrixData, null, 2)], {
+        type: 'application/json',
+      });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'sparse-matrix.json';
+      a.click();
+      window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Error al exportar JSON:', error);
     }
@@ -131,22 +105,18 @@ const SparseMatrix = () => {
         const content = e.target?.result as string;
         const jsonData = JSON.parse(content);
 
-        await fetch('http://192.168.1.113:8080/sparseMatrix/loadJSON', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ file: jsonData.matrix }),
-        });
-
-        // Convertir el array de objetos a nuestro formato de estado
-        const newMatrix: { [key: string]: string } = {};
-        jsonData.matrix.forEach(
-          (item: { row: number; column: number; color: string }) => {
-            newMatrix[`${item.row},${item.column}`] = item.color;
-          }
-        );
-        setMatrix(newMatrix);
+        // Verificar si el JSON tiene la estructura correcta
+        if (jsonData.matrix && Array.isArray(jsonData.matrix)) {
+          const newMatrix: { [key: string]: string } = {};
+          jsonData.matrix.forEach(
+            (item: { row: number; column: number; color: string }) => {
+              newMatrix[`${item.row},${item.column}`] = item.color;
+            }
+          );
+          setMatrix(newMatrix);
+        } else {
+          console.error('El archivo JSON no tiene la estructura correcta.');
+        }
       };
       reader.readAsText(file);
     } catch (error) {

@@ -257,8 +257,12 @@ void sparseMatrixRoutes(Server& svr, SparseMatrixServer& mtxServer) {
           [&mtxServer](const Request& req, Response& res) {
             mtxServer.handleClean(req, res);
           });
-}
 
+  svr.Get("/sparseMatrix/getInitialData",
+          [&mtxServer](const Request& req, Response& res) {
+            mtxServer.handleGetInitialData(req, res);
+          });
+}
 void redBlackTreeRoutes(Server& svr, RedBlackTreeServer& rbtServer) {
   svr.Post("/redBlackTree/insert",
            [&rbtServer](const Request& req, Response& res) {

@@ -1,8 +1,8 @@
 #include <iostream>
-#include "../include/sparceMatrix.h"
-#include "../lib/json.hpp"
 
+#include "../include/sparceMatrix.h"
 #include "../lib/httplib.h"
+#include "../lib/json.hpp"
 
 using namespace std;
 using namespace nlohmann;
@@ -81,7 +81,21 @@ class SparseMatrixServer {
       res.status = 500;
     }
   }
-
+  void handleGetInitialData(const Request& req, Response& res) {
+    try {
+      json file = mtx.toJson();
+      json response = {{"status", "success"},
+                       {"message", "Datos iniciales obtenidos correctamente"},
+                       {"matrix", file["matrix"]}};
+      res.set_content(response.dump(), "application/json");
+    } catch (const exception& e) {
+      json error = {{"status", "error"},
+                    {"message", "Error obteniendo datos iniciales"},
+                    {"exception", e.what()}};
+      res.set_content(error.dump(), "application/json");
+      res.status = 500;
+    }
+  }
   void handleClean(const Request& req, Response& res) {
     try {
       mtx.clearMatrix();

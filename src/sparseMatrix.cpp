@@ -1,8 +1,8 @@
 #include <iostream>
 #include <sstream>
-#include "../lib/json.hpp"
 
 #include "../include/sparceMatrix.h"
+#include "../lib/json.hpp"
 
 using namespace std;
 
@@ -37,36 +37,32 @@ sparseMatrix::~sparseMatrix() {
 }
 
 int sparseMatrix::deleteColor(int colIndex, int rowIndex) {
-  if (rowIndex < 0 || colIndex < 0)
-    throw invalid_argument("Error posicion negativa");
+  if (rowIndex < 0 || colIndex < 0) return 0;
 
   HeaderNode* headerX = insertHeader(rowIndex, true);
   HeaderNode* headerY = insertHeader(colIndex, false);
 
-  if (headerX->dato == nullptr || headerY->dato == nullptr)
-    return 0;
+  if (headerX->dato == nullptr || headerY->dato == nullptr) return 0;
 
+  // Buscar el nodo en la fila
   Nodo* currentRow = headerX->dato;
   Nodo* prevRow = nullptr;
-
   while (currentRow != nullptr && currentRow->columna < colIndex) {
     prevRow = currentRow;
     currentRow = currentRow->derecha;
   }
 
-  if (currentRow == nullptr || currentRow->columna != colIndex)
-    return 0;
+  if (currentRow == nullptr || currentRow->columna != colIndex) return 0;
 
+  // Buscar el nodo en la columna
   Nodo* currentCol = headerY->dato;
   Nodo* prevCol = nullptr;
-
   while (currentCol != nullptr && currentCol->fila < rowIndex) {
     prevCol = currentCol;
     currentCol = currentCol->abajo;
   }
 
-  if (currentCol == nullptr || currentCol->fila != rowIndex)
-    return 0;
+  if (currentCol == nullptr || currentCol->fila != rowIndex) return 0;
 
   // Actualizar enlaces horizontales
   if (prevRow == nullptr) {
@@ -89,7 +85,16 @@ int sparseMatrix::deleteColor(int colIndex, int rowIndex) {
   }
 
   // Eliminar el nodo
-  delete currentRow;  // currentRow y currentCol son el mismo nodo
+  delete currentRow;
+
+  // Eliminar del JSON
+  auto& matrix = jsonFile["matrix"];
+  for (auto it = matrix.begin(); it != matrix.end(); ++it) {
+    if ((*it)["column"] == colIndex && (*it)["row"] == rowIndex) {
+      matrix.erase(it);
+      break;
+    }
+  }
 
   return 1;
 }
@@ -97,30 +102,34 @@ int sparseMatrix::deleteColor(int colIndex, int rowIndex) {
 // guardar el nodo, pero ajustar los apuntadores de su fila o columna segun sea
 // necesario en la posicion dada
 int sparseMatrix::insertColor(string color, int colIndex, int rowIndex) {
-  if (rowIndex < 0 || colIndex < 0)
-    return 0;
+  if (rowIndex < 0 || colIndex < 0) return 0;
 
   HeaderNode* headerX = insertHeader(rowIndex, true);
   HeaderNode* headerY = insertHeader(colIndex, false);
 
+  // Buscar si ya existe un nodo en esta posición
+  Nodo* currentRow = headerX->dato;
+  while (currentRow != nullptr && currentRow->columna < colIndex) {
+    currentRow = currentRow->derecha;
+  }
+
+  if (currentRow != nullptr && currentRow->columna == colIndex) {
+    // Si ya existe, actualizar el color
+    currentRow->color = color;
+    return 1;
+  }
+
+  // Crear un nuevo nodo
   Nodo* nuevo = new Nodo(color, rowIndex, colIndex);
 
+  // Insertar en la fila
   if (headerX->dato == nullptr || headerX->dato->columna > colIndex) {
-    // si el nodo a insertar es el primero en esta fila, o si esta en la primera
-    // posicion
     nuevo->derecha = headerX->dato;
     headerX->dato = nuevo;
   } else {
     Nodo* temp = headerX->dato;
-    headerX->dato = nuevo;
     while (temp->derecha != nullptr && temp->derecha->columna < colIndex) {
       temp = temp->derecha;
-    }
-    // si ya existe en esta posicion
-    if (temp->derecha != nullptr && temp->derecha->columna == colIndex) {
-      temp->derecha->color = color;
-      delete nuevo;
-      return 1;
     }
     nuevo->derecha = temp->derecha;
     temp->derecha = nuevo;
@@ -130,19 +139,14 @@ int sparseMatrix::insertColor(string color, int colIndex, int rowIndex) {
     nuevo->izquierda = temp;
   }
 
+  // Insertar en la columna
   if (headerY->dato == nullptr || headerY->dato->fila > rowIndex) {
     nuevo->abajo = headerY->dato;
     headerY->dato = nuevo;
   } else {
     Nodo* temp = headerY->dato;
-    headerY->dato = nuevo;
     while (temp->abajo != nullptr && temp->abajo->fila < rowIndex) {
       temp = temp->abajo;
-    }
-    if (temp->abajo != nullptr && temp->abajo->fila == rowIndex) {
-      temp->abajo->color = color;
-      delete nuevo;
-      return 1;
     }
     nuevo->abajo = temp->abajo;
     temp->abajo = nuevo;
@@ -152,9 +156,7 @@ int sparseMatrix::insertColor(string color, int colIndex, int rowIndex) {
     nuevo->arriba = temp;
   }
 
-  cout << "Color: " << color << " en la posicion: " << colIndex << ", "
-       << rowIndex << endl;
-
+  // Agregar al JSON
   jsonFile["matrix"].push_back(
       {{"color", color}, {"column", colIndex}, {"row", rowIndex}});
 
@@ -194,10 +196,8 @@ sparseMatrix::HeaderNode* sparseMatrix::insertHeader(int pos, bool isRow) {
     temp = temp->sig;
   }
 
-  if (temp->pos == pos)
-    return temp;
-  if (temp->sig != nullptr && temp->sig->pos == pos)
-    return temp->sig;
+  if (temp->pos == pos) return temp;
+  if (temp->sig != nullptr && temp->sig->pos == pos) return temp->sig;
 
   HeaderNode* nuevo = new HeaderNode(pos);
   nuevo->sig = temp->sig;
@@ -206,8 +206,7 @@ sparseMatrix::HeaderNode* sparseMatrix::insertHeader(int pos, bool isRow) {
 }
 
 int sparseMatrix::findMax(HeaderNode* header) {
-  if (header == nullptr)
-    return 0;
+  if (header == nullptr) return 0;
 
   while (header->sig != nullptr) {
     header = header->sig;
@@ -217,20 +216,17 @@ int sparseMatrix::findMax(HeaderNode* header) {
 
 string sparseMatrix::generateGraph() {
   stringstream graph;
-  graph << "digraph a {" << endl;
-  graph << "node [fontname = \" Helvetica, Arial, sans - seruf \";];" << endl;
-  graph << "a0 [shape= none;label = <" << endl;
-  graph << "<table border = \"0\" cellspacing=\"0\">" << endl;
+  graph << "digraph G {" << endl;
+  graph << "node [shape=plaintext];" << endl;
+  graph << "rankdir=LR;" << endl;
+  graph << "a0 [label=<<table border=\"0\" cellspacing=\"0\">" << endl;
 
   int maxRow = findMax(headerNodeX);
   int maxCol = findMax(headerNodeY);
 
-  // crear una cantidad de tr igual a maxRow
   for (int i = 0; i <= maxRow; i++) {
-    // En este ciclo se recorren dos arrays lo que hace que su complejidad temporal sea O(x*y)
     graph << "<tr>" << endl;
 
-    // buscar el header node de esta fila
     HeaderNode* currentRow = headerNodeX;
     while (currentRow != nullptr && currentRow->pos != i) {
       currentRow = currentRow->sig;
@@ -241,29 +237,25 @@ string sparseMatrix::generateGraph() {
     for (int j = 0; j <= maxCol; j++) {
       string color = "white";  // Color por defecto
 
-      // Si hay un nodo en esta columna, usar su color
       if (currentNode != nullptr && currentNode->columna == j) {
         color = currentNode->color;
         currentNode = currentNode->derecha;
       }
 
-      graph << "<td bgcolor=\"" << color << "\"></td>" << endl;
+      graph << "<td bgcolor=\"" << color
+            << "\" width=\"20\" height=\"20\"></td>" << endl;
     }
 
     graph << "</tr>" << endl;
   }
 
-  // Iterar por cada nodo de cada fila e irlos metiendo a la tabla
-
-  graph << "</table> >;];" << endl;
+  graph << "</table>>];" << endl;
   graph << "}" << endl;
 
   return graph.str();
 }
 
-json sparseMatrix::toJson() const {
-  return jsonFile;
-}
+json sparseMatrix::toJson() const { return jsonFile; }
 
 void sparseMatrix::insertJson(json text) {
   if (text.is_array()) {

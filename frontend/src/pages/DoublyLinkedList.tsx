@@ -1,42 +1,34 @@
 import GraphvizComponent from '../utils/Graphviz';
 import { useState, useEffect, useCallback } from 'react';
 import styles from './DoublyLinkedList.module.css';
+import {
+  fetchGraphviz,
+  insertHead,
+  deleteHead,
+  insertEnd,
+  deleteEnd,
+  insertAtIndex,
+  deleteAtIndex,
+} from '../scripts/doublyLinkedListService';
 
 const DoublyLinkedList = () => {
   const [dllInput, setDllInput] = useState<string>();
   const [nodeValue, setNodeValue] = useState<number | string>('');
   const [indexValue, setIndexValue] = useState<number | string>('');
 
-  const fetchGraphviz = async () => {
-    try {
-      const response = await fetch(
-        'http://192.168.1.113:8080/doublyLinkedList/updateGraph'
-      );
-      const data = await response.json();
-      if (data.status === 'success') {
-        setDllInput(data.dot);
-      } else {
-        console.error('Error al obtener Graphviz:', data.message);
-      }
-    } catch (error) {
-      console.error('Error en la solicitud:', error);
-    }
-  };
-
   const updateListData = useCallback(async () => {
-    await fetchGraphviz();
+    try {
+      const graphvizData = await fetchGraphviz();
+      setDllInput(graphvizData);
+    } catch (error) {
+      console.error('Error updating list data:', error);
+    }
   }, []);
 
   const handleInsertHead = async () => {
     if (typeof nodeValue === 'number') {
       try {
-        await fetch('http://192.168.1.113:8080/doublyLinkedList/insertHead', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ value: nodeValue }),
-        });
+        await insertHead(nodeValue);
         await updateListData();
       } catch (error) {
         console.error('Error al insertar en la cabeza:', error);
@@ -47,9 +39,7 @@ const DoublyLinkedList = () => {
 
   const handleDeleteHead = async () => {
     try {
-      await fetch('http://192.168.1.113:8080/doublyLinkedList/deleteHead', {
-        method: 'DELETE',
-      });
+      await deleteHead();
       await updateListData();
     } catch (error) {
       console.error('Error al eliminar la cabeza:', error);
@@ -59,13 +49,7 @@ const DoublyLinkedList = () => {
   const handleInsertEnd = async () => {
     if (typeof nodeValue === 'number') {
       try {
-        await fetch('http://192.168.1.113:8080/doublyLinkedList/insertEnd', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ value: nodeValue }),
-        });
+        await insertEnd(nodeValue);
         await updateListData();
       } catch (error) {
         console.error('Error al insertar al final:', error);
@@ -76,9 +60,7 @@ const DoublyLinkedList = () => {
 
   const handleDeleteEnd = async () => {
     try {
-      await fetch('http://192.168.1.113:8080/doublyLinkedList/deleteEnd', {
-        method: 'DELETE',
-      });
+      await deleteEnd();
       await updateListData();
     } catch (error) {
       console.error('Error al eliminar del final:', error);
@@ -88,16 +70,7 @@ const DoublyLinkedList = () => {
   const handleInsertAtIndex = async () => {
     if (typeof nodeValue === 'number' && typeof indexValue === 'number') {
       try {
-        await fetch(
-          'http://192.168.1.113:8080/doublyLinkedList/insertAtIndex',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ value: nodeValue, index: indexValue }),
-          }
-        );
+        await insertAtIndex(nodeValue, indexValue);
         await updateListData();
       } catch (error) {
         console.error('Error al insertar en el índice:', error);
@@ -110,16 +83,7 @@ const DoublyLinkedList = () => {
   const handleDeleteAtIndex = async () => {
     if (typeof indexValue === 'number') {
       try {
-        await fetch(
-          'http://192.168.1.113:8080/doublyLinkedList/deleteAtIndex',
-          {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ index: indexValue }),
-          }
-        );
+        await deleteAtIndex(indexValue);
         await updateListData();
       } catch (error) {
         console.error('Error al eliminar del índice:', error);

@@ -1,6 +1,16 @@
 import GraphvizComponent from '../utils/Graphviz';
 import { useState, useEffect, useCallback } from 'react';
 import styles from './DoublyCircularLinkedList.module.css';
+import {
+  fetchGraphviz,
+  fetchLength,
+  insertHead,
+  deleteHead,
+  insertEnd,
+  deleteEnd,
+  insertAtIndex,
+  deleteAtIndex,
+} from '../scripts/doublyCircularListService';
 
 const DoublyCircularList = () => {
   const [dclInput, setDclInput] = useState<string>();
@@ -8,50 +18,23 @@ const DoublyCircularList = () => {
   const [indexValue, setIndexValue] = useState<number | string>('');
   const [listLength, setListLength] = useState<number>(0);
 
-  const fetchGraphviz = async () => {
-    try {
-      const response = await fetch(
-        'http://192.168.1.113:8080/doublyCircularList/updateGraph'
-      );
-      const data = await response.json();
-      if (data.status === 'success') {
-        setDclInput(data.dot);
-      } else {
-        console.error('Error al obtener Graphviz:', data.message);
-      }
-    } catch (error) {
-      console.error('Error en la solicitud:', error);
-    }
-  };
-
-  const fetchLength = async () => {
-    try {
-      const response = await fetch(
-        'http://192.168.1.113:8080/doublyCircularList/lenght'
-      );
-      const data = await response.json();
-      if (data.status === 'success') {
-        setListLength(data.length);
-      }
-    } catch (error) {
-      console.error('Error al obtener la longitud:', error);
-    }
-  };
-
   const updateListData = useCallback(async () => {
-    await Promise.all([fetchGraphviz(), fetchLength()]);
+    try {
+      const [graphvizData, lengthData] = await Promise.all([
+        fetchGraphviz(),
+        fetchLength(),
+      ]);
+      setDclInput(graphvizData);
+      setListLength(lengthData);
+    } catch (error) {
+      console.error('Error updating list data:', error);
+    }
   }, []);
 
   const handleInsertHead = async () => {
     if (typeof nodeValue === 'number') {
       try {
-        await fetch('http://192.168.1.113:8080/doublyCircularList/insertHead', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ value: nodeValue }),
-        });
+        await insertHead(nodeValue);
         await updateListData();
       } catch (error) {
         console.error('Error al insertar en la cabeza:', error);
@@ -62,9 +45,7 @@ const DoublyCircularList = () => {
 
   const handleDeleteHead = async () => {
     try {
-      await fetch('http://192.168.1.113:8080/doublyCircularList/deleteHead', {
-        method: 'DELETE',
-      });
+      await deleteHead();
       await updateListData();
     } catch (error) {
       console.error('Error al eliminar la cabeza:', error);
@@ -74,13 +55,7 @@ const DoublyCircularList = () => {
   const handleInsertEnd = async () => {
     if (typeof nodeValue === 'number') {
       try {
-        await fetch('http://192.168.1.113:8080/doublyCircularList/insertEnd', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ value: nodeValue }),
-        });
+        await insertEnd(nodeValue);
         await updateListData();
       } catch (error) {
         console.error('Error al insertar al final:', error);
@@ -91,9 +66,7 @@ const DoublyCircularList = () => {
 
   const handleDeleteEnd = async () => {
     try {
-      await fetch('http://192.168.1.113:8080/doublyCircularList/deleteEnd', {
-        method: 'DELETE',
-      });
+      await deleteEnd();
       await updateListData();
     } catch (error) {
       console.error('Error al eliminar del final:', error);
@@ -103,16 +76,7 @@ const DoublyCircularList = () => {
   const handleInsertAtIndex = async () => {
     if (typeof nodeValue === 'number' && typeof indexValue === 'number') {
       try {
-        await fetch(
-          'http://192.168.1.113:8080/doublyCircularList/insertAtIndex',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ value: nodeValue, index: indexValue }),
-          }
-        );
+        await insertAtIndex(nodeValue, indexValue);
         await updateListData();
       } catch (error) {
         console.error('Error al insertar en el índice:', error);
@@ -125,16 +89,7 @@ const DoublyCircularList = () => {
   const handleDeleteAtIndex = async () => {
     if (typeof indexValue === 'number') {
       try {
-        await fetch(
-          'http://192.168.1.113:8080/doublyCircularList/deleteAtIndex',
-          {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ index: indexValue }),
-          }
-        );
+        await deleteAtIndex(indexValue);
         await updateListData();
       } catch (error) {
         console.error('Error al eliminar del índice:', error);
