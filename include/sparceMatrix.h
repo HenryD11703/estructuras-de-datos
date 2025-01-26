@@ -2,6 +2,7 @@
 #define SPARSE_MATRIX_H
 
 #include <iostream>
+
 #include "../lib/json.hpp"
 
 using namespace std;

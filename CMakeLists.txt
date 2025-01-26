@@ -5,7 +5,9 @@ project(server)
 
 # C++ standard
 set(CMAKE_CXX_STANDARD 17)
+# Inserting a line above
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+# Inserting a line below in vim
 
 # Header files
 include_directories(include)
