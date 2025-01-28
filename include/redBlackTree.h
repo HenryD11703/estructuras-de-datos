@@ -41,6 +41,12 @@ class RedBlackTree {
   string colorToString(Color color) const;
   void printTree(Node* node, int indent) const;
   void printTree() const;
+  string preorder();
+  void preorder(stringstream& text, Node* node);
+  string inorder();
+  void inorder(stringstream& text, Node* node);
+  string postorder();
+  void postorder(stringstream& text, Node* node);
 };
 
 #endif

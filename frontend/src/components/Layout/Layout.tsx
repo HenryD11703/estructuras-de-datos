@@ -8,6 +8,7 @@ import DoublyLinkedList from '../../pages/DoublyLinkedList';
 import DoublyCircularLinkedList from '../../pages/DoublyCircularLinkedList';
 import GraphvizComponent from '../../utils/Graphviz';
 import SparseMatrix from '../../pages/SparseMatrix';
+import RedBlackTree from '../../pages/RedBlackTree';
 
 const Layout = () => {
   const [selectedStructure, setSelectedStructure] = useState<string | null>(
@@ -40,6 +41,8 @@ const Layout = () => {
         return <DoublyCircularLinkedList />;
       case 'Sparse Matrix':
         return <SparseMatrix />;
+      case 'Red-Black Tree':
+        return <RedBlackTree />
       case 'B-Tree':
         return <GraphvizComponent />;
       default:

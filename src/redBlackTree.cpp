@@ -201,6 +201,42 @@ RedBlackTree::Node* RedBlackTree::getUncle(Node* node) {
   }
 }
 
+string RedBlackTree::preorder() {
+  stringstream preorderString;
+  preorder(preorderString, root);
+  return preorderString.str();
+}
+void RedBlackTree::preorder(stringstream& text, Node* node) {
+  if (node == nullptr) return;
+  text << node->valor << " ";
+  preorder(text, node->left);
+  preorder(text, node->right);
+}
+
+string RedBlackTree::inorder() {
+  stringstream inorderString;
+  inorder(inorderString, root);
+  return inorderString.str();
+}
+void RedBlackTree::inorder(stringstream& text, Node* node) {
+  if (node == nullptr) return;
+  inorder(text, node->left);
+  text << node->valor << " ";
+  inorder(text, node->right);
+}
+
+string RedBlackTree::postorder() {
+  stringstream preorderString;
+  preorder(preorderString, root);
+  return preorderString.str();
+}
+void RedBlackTree::postorder(stringstream& text, Node* node) {
+  if (node == nullptr) return;
+  postorder(text, node->left);
+  postorder(text, node->right);
+  text << node->valor << " ";
+}
+
 string RedBlackTree::colorToString(Color color) const {
   return color == RED ? "RED" : "BLACK";
 }

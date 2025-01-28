@@ -263,6 +263,7 @@ void sparseMatrixRoutes(Server& svr, SparseMatrixServer& mtxServer) {
             mtxServer.handleGetInitialData(req, res);
           });
 }
+
 void redBlackTreeRoutes(Server& svr, RedBlackTreeServer& rbtServer) {
   svr.Post("/redBlackTree/insert",
            [&rbtServer](const Request& req, Response& res) {
@@ -277,6 +278,19 @@ void redBlackTreeRoutes(Server& svr, RedBlackTreeServer& rbtServer) {
   svr.Get("/redBlackTree/getGraphviz",
           [&rbtServer](const Request& req, Response& res) {
             rbtServer.handleGraphviz(req, res);
+          });
+
+  svr.Get("/redBlackTree/Preorder",
+          [&rbtServer](const Request& req, Response& res) {
+            rbtServer.handlePreorder(req, res);
+          });
+  svr.Get("/redBlackTree/Inorder",
+          [&rbtServer](const Request& req, Response& res) {
+            rbtServer.handleInorder(req, res);
+          });
+  svr.Get("/redBlackTree/Postorder",
+          [&rbtServer](const Request& req, Response& res) {
+            rbtServer.handlePostorder(req, res);
           });
 }
 
