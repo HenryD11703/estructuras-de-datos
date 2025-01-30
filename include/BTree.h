@@ -1,18 +1,35 @@
-#ifndef B_TREE_H
-#define B_TREE_H
-#include <iostream>
-#include <sstream>
+#ifndef BTREE_H
+#define BTREE_H
 
-#include "../lib/json.hpp"
+#include <iostream>
+#include <vector>
+
 using namespace std;
 
 class BTree {
  private:
-  struct Node {
-    int* keys;
+  int M;
+  class Nodo {
+   public:
+    int M_nodo;
+    int num_claves;
+    std::vector<int> claves;
+    std::vector<Nodo*> hijos;
+    bool es_hoja;
+
+    Nodo(int m, bool hoja);
+    void insertarNoLleno(int clave);
+    void dividirHijo(int indice, Nodo* hijo);
+    void recorrer();
+    string generateGraphviz();
   };
 
- public:
-};
+  Nodo* raiz;
 
+ public:
+  BTree(int max_claves);
+  void insertar(int clave);
+  void recorrer();
+  string generateGraphviz();
+};
 #endif

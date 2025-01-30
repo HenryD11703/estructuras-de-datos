@@ -5,6 +5,17 @@
   },
   "C_Cpp.clang_format_style": "file",
   "files.associations": {
-    "iosfwd": "cpp"
+    "iosfwd": "cpp",
+    "chrono": "cpp",
+    "text_encoding": "cpp",
+    "typeinfo": "cpp",
+    "*.tcc": "cpp",
+    "deque": "cpp",
+    "list": "cpp",
+    "string": "cpp",
+    "unordered_map": "cpp",
+    "unordered_set": "cpp",
+    "vector": "cpp",
+    "iostream": "cpp"
   }
 }
