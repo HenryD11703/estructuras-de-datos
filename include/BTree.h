@@ -22,12 +22,14 @@ class BTree {
     void dividirHijo(int indice, Nodo* hijo);
     void recorrer();
     string generateGraphviz();
+    ~Nodo();
   };
 
   Nodo* raiz;
 
  public:
   BTree(int max_claves);
+  ~BTree();
   void insertar(int clave);
   void recorrer();
   string generateGraphviz();

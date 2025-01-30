@@ -4,6 +4,17 @@
 #include <sstream>
 using namespace std;
 
+BTree::Nodo::~Nodo() {
+  for (int i = 0; i < num_claves; ++i) {
+    if (!es_hoja) delete hijos[i];
+  }
+  if (!es_hoja) delete hijos[num_claves];
+}
+
+BTree::~BTree() {
+  if (raiz) delete raiz;
+}
+
 BTree::Nodo::Nodo(int m, bool hoja) : M_nodo(m), es_hoja(hoja), num_claves(0) {
   claves.resize(M_nodo - 1);
   hijos.resize(M_nodo, nullptr);
