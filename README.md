@@ -1,7 +1,5 @@
 # Data Structures
 
-I am making this repository to keep track of the data structures I have learned and implemented in C++. I will be adding more data structures as I learn them and documenting them as I go.
-
 ## Table of Contents
 
 - [Linked List](docs/linkedList/README.md) | [Lista enlazada](docs/linkedList/ES/README.md)
@@ -10,3 +8,4 @@ I am making this repository to keep track of the data structures I have learned 
 - [Binary Search Tree](docs/binarySearchTree/README.md) | [Árbol binario de búsqueda](docs/binarySearchTree/ES/README.md)
 - [AVL Tree](docs/avlTree/README.md) | [Árbol AVL](docs/avlTree/ES/README.md)
 - [Red Black Tree](docs/redBlackTree/README.md) | [Árbol Rojo-Negro](docs/redBlackTree/ES/README.md)
+- [B Tree](docs/BTree/README.md) | [Arbol B](docs/BTree/ES/README.md)
