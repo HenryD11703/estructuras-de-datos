@@ -9,6 +9,7 @@ import DoublyCircularLinkedList from '../../pages/DoublyCircularLinkedList';
 import GraphvizComponent from '../../utils/Graphviz';
 import SparseMatrix from '../../pages/SparseMatrix';
 import RedBlackTree from '../../pages/RedBlackTree';
+import BTree from '../../pages/BTree';
 
 const Layout = () => {
   const [selectedStructure, setSelectedStructure] = useState<string | null>(
@@ -44,7 +45,7 @@ const Layout = () => {
       case 'Red-Black Tree':
         return <RedBlackTree />
       case 'B-Tree':
-        return <GraphvizComponent />;
+        return <BTree />;
       default:
         return <div>Seleccione una estructura de datos</div>;
     }

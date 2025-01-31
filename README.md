@@ -9,3 +9,4 @@ I am making this repository to keep track of the data structures I have learned 
 - [Doubly Circular Linked List](docs/doublyCircularList/README.md) | [Lista doblemente enlazada circular](docs/doublyCircularList/ES/README.md)
 - [Binary Search Tree](docs/binarySearchTree/README.md) | [Árbol binario de búsqueda](docs/binarySearchTree/ES/README.md)
 - [AVL Tree](docs/avlTree/README.md) | [Árbol AVL](docs/avlTree/ES/README.md)
+- [Red Black Tree](docs/redBlackTree/README.md) | [Árbol Rojo-Negro](docs/redBlackTree/ES/README.md)

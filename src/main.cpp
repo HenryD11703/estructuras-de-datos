@@ -2,6 +2,7 @@
 
 #include "../lib/httplib.h"
 #include "./server/AVLTreeEndpoints.cpp"
+#include "./server/BTreeEndpoints.cpp"
 #include "./server/binarySearchTreeEndpoints.cpp"
 #include "./server/doublyCircularListEndpoints.cpp"
 #include "./server/doublyLinkedListEndpoints.cpp"
@@ -294,6 +295,17 @@ void redBlackTreeRoutes(Server& svr, RedBlackTreeServer& rbtServer) {
           });
 }
 
+void bTreeRoutes(Server& svr, BTreeServer& bTreeServer) {
+  svr.Post("/bTree/insert", [&bTreeServer](const Request& req, Response& res) {
+    bTreeServer.handleInsert(req, res);
+  });
+
+  svr.Get("/bTree/getGraphviz",
+          [&bTreeServer](const Request& req, Response& res) {
+            bTreeServer.handleGenerateGraphviz(req, res);
+          });
+}
+
 int main() {
   LinkedListServer llServer;
   DoublyLinkedListServer dllServer;
@@ -302,6 +314,7 @@ int main() {
   AVLTreeServer avlServer;
   SparseMatrixServer mtxServer;
   RedBlackTreeServer rbtServer;
+  BTreeServer bTreeServer;
 
   httplib::Server svr;
 
@@ -314,6 +327,7 @@ int main() {
   AVLTreeRoutes(svr, avlServer);
   sparseMatrixRoutes(svr, mtxServer);
   redBlackTreeRoutes(svr, rbtServer);
+  bTreeRoutes(svr, bTreeServer);
 
   cout << "Servidor corriendo en http://localhost:8080" << endl;
   svr.listen("0.0.0.0", 8080);

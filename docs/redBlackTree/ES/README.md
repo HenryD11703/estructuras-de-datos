@@ -1,28 +1,28 @@
-# Red Black Tree
+# Árbol Rojo-Negro
 
-The red black tree is a type of self balancing trees which is used to maintain the balance of the tree.
-It is a binary search tree with one extra bit of storage per node. The extra bit represents the color of the node.
-It is either red or black. The color is used to ensure that the tree remains approximately balanced during insertions and deletions.
+El árbol rojo-negro es un tipo de árbol de auto-balanceo que se utiliza para mantener el equilibrio del árbol.
+Es un árbol binario de búsqueda con un bit adicional de almacenamiento por nodo. Este bit adicional representa el color del nodo,
+que puede ser rojo o negro. El color se utiliza para garantizar que el árbol permanezca aproximadamente equilibrado durante las inserciones y eliminaciones.
 
-The time complexity of the red black tree is O(log n) for all the operations like search, insert and delete.
+La complejidad temporal del árbol rojo-negro es **O(log n)** para todas las operaciones, como búsqueda, inserción y eliminación.
 
-The red black tree is a type of binary search tree which has the following properties:
+Un árbol rojo-negro es un tipo de árbol binario de búsqueda que cumple con las siguientes propiedades:
 
-1. Every node is either red or black.
-2. The root is always black.
-3. Every leaf (NIL) is black.
-4. If a red node has children, then the children are always black.
-5. Every path from a node to its descendant NIL nodes must have the same number of black nodes.
+1. Cada nodo es **rojo** o **negro**.
+2. La raíz siempre es **negra**.
+3. Cada hoja (NIL) es **negra**.
+4. Si un nodo es **rojo**, entonces sus hijos deben ser **negros**.
+5. Cada camino desde un nodo hasta sus nodos descendientes NIL debe contener el mismo número de nodos **negros**.
 
-## Applications of Red Black Tree
+## Aplicaciones del Árbol Rojo-Negro
 
-1. It is used in the implementation of the associative arrays.
-2. It is used in the implementation of the C++ standard library.
-3. It is used in the Linux kernel for the process scheduling.
+1. Se utiliza en la implementación de **arreglos asociativos**.
+2. Se utiliza en la implementación de la **biblioteca estándar de C++**.
+3. Se utiliza en el **kernel de Linux** para la planificación de procesos.
 
-## Operations on Red Black Tree
+## Operaciones en el Árbol Rojo-Negro
 
-### Insertion
+### Inserción
 
 ```cpp
 void RedBlackTree::insert(int val) {
@@ -48,9 +48,9 @@ RedBlackTree::Node* RedBlackTree::insert(Node* node, Node* newNode) {
 }
 ```
 
-This does the insertion of the node in the red black tree. The new node is inserted as a red node. After the insertion, the tree is fixed to maintain the properties of the red black tree.
+Este código realiza la inserción de un nodo en el árbol rojo-negro. El nuevo nodo se inserta como un nodo rojo. Después de la inserción, el árbol se ajusta para mantener las propiedades del árbol rojo-negro.
 
-The fixViolation function is used to fix the red black tree after the insertion of the new node.
+La función fixViolation se utiliza para corregir el árbol rojo-negro después de la inserción del nuevo nodo.
 
 ```cpp
 void RedBlackTree::fixViolation(Node* node) {
@@ -87,8 +87,7 @@ void RedBlackTree::fixViolation(Node* node) {
         swap(padre->color, abuelo->color);
         node = padre;
       }
-    } else  // Caso 2: El padre es el hijo derecho del abuelo
-    {
+    } else {  // Caso 2: El padre es el hijo derecho del abuelo
       Node* tio = abuelo->left;
 
       // Caso 2.1: El tío es rojo, solo se necesita recolorar
@@ -119,19 +118,17 @@ void RedBlackTree::fixViolation(Node* node) {
 }
 ```
 
-So basically Insertion steps are:
+Los pasos basicos para la inserción son los siguientes:
 
-1. Insert the node as a red node.
+1. Insertar el nodo como un nodo rojo.
 
-2. Fix the tree to maintain the properties of the red black tree.
+2. Si el nodo padre del nodo insertado es rojo, entonces hay un conflicto de colores y se deben realizar las siguientes operaciones:
 
-3. If the parent of the node is red, then there are three cases:
+   - El tío del nodo es rojo.
+   - El tío del nodo es negro y el nodo es el hijo derecho del padre.
+   - El tío del nodo es negro y el nodo es el hijo izquierdo del padre.
 
-   1. The uncle of the node is red.
-   2. The uncle of the node is black and the node is the right child of the parent.
-   3. The uncle of the node is black and the node is the left child of the parent.
-
-### Deletion
+### Eliminacion
 
 ```cpp
 void RedBlackTree::deleteNode(int val) { root = deleteNode(root, val); }
@@ -176,21 +173,17 @@ RedBlackTree::Node* RedBlackTree::deleteNode(Node* node, int val) {
 }
 ```
 
-This does the deletion of the node in the red black tree. The node is deleted and the tree is fixed to maintain the properties of the red black tree.
+Este código realiza la eliminación de un nodo en el árbol rojo-negro. El nodo se elimina y el árbol se ajusta para mantener las propiedades del árbol rojo-negro.
 
-The deleteNode function is used to delete the node from the red black tree.
+La función deleteNode se utiliza para eliminar el nodo del árbol rojo-negro.
 
-So basically Deletion steps are:
+Los pasos básicos de la eliminación son:
 
-1. Delete the node from the red black tree.
+1. Eliminar el nodo del árbol rojo-negro.
 
-2. Fix the tree to maintain the properties of the red black tree.
+2. Ajustar el árbol para mantener las propiedades del árbol rojo-negro.
 
-## Complexity Analysis
-
-The time complexity of the red black tree is O(log n) for all the operations like search, insert and delete.
-
-## References
+## Referencias
 
 - [Wikipedia](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree)
 - [GeeksforGeeks](https://www.geeksforgeeks.org/red-black-tree-set-1-introduction-2/)
