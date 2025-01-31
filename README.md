@@ -1,5 +1,9 @@
 # Data Structures
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+This is a personal project where I implement some data structures in c++, and used Graphviz to visualize them in a frontend using Vis.js in React.
+
 ## Table of Contents
 
 - [Linked List](docs/linkedList/README.md) | [Lista enlazada](docs/linkedList/ES/README.md)
